@@ -1,7 +1,7 @@
 @import '~react-md/src/scss/react-md';
 
 $md-light-theme: true; // optional for light theme
-$md-primary-color: $md-blue-grey-500;
-$md-secondary-color: $md-teal-a-400;
+$md-primary-color: $md-amber-500;
+$md-secondary-color: $md-red-500;
 
 @include react-md-everything;
