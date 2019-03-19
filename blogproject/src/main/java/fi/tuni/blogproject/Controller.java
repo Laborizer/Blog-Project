@@ -18,15 +18,15 @@ public class Controller {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    @GetMapping("/addBlogItem/{title}/{content}")
-    public BlogItem addBlogItem(@PathVariable String title, @PathVariable String content) {
+    @GetMapping("/addBlogItem/{author}/{title}/{content}")
+    public BlogItem addBlogItem(@PathVariable String author, @PathVariable String title, @PathVariable String content) {
 
-        BlogItem b = new BlogItem(blogItemRepository.getSize(),title, content);
+        BlogItem b = new BlogItem(blogItemRepository.getSize(), author, title, content);
 
         blogItemRepository.save(b);
         jdbcTemplate.update(
-                "INSERT INTO blogs (id, title, content) VALUES (?, ?, ?)",
-                b.getId(), b.getTitle(), b.getContent()
+                "INSERT INTO blogs (id, author, title, content) VALUES (?, ?, ?, ?)",
+                b.getId(), b.getAuthor(), b.getTitle(), b.getContent()
         );
 
         return b;

@@ -18,6 +18,6 @@ public class BlogprojectApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-        jdbcTemplate.execute("CREATE TABLE blogs(id int, title varchar(255), content text)");
+        jdbcTemplate.execute("CREATE TABLE blogs(id int, author varchar(255), title varchar(255), content text)");
 	}
 }
