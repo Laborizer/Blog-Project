@@ -34,6 +34,9 @@ class App extends Component {
                       title="Blog-Pro"
                     />
                     {<BlogPosts/>}
+                <div>
+                    <Button floating primary swapTheming>favorite</Button>
+                </div>
             </div>
         );
     }
