@@ -1,5 +1,7 @@
 package fi.tuni.blogproject;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
@@ -7,6 +9,10 @@ import java.util.Optional;
 
 @Component
 public class BlogItemRepositoryImpl implements BlogItemRepository {
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
     LinkedList<BlogItem> blogItemList = new LinkedList<>();
 
     @Override
@@ -27,6 +33,11 @@ public class BlogItemRepositoryImpl implements BlogItemRepository {
 
         for (int i=index; i<blogItemList.size(); i++) {
             blogItemList.get(i).setId(blogItemList.get(i).getId() - 1);
+
+            jdbcTemplate.update(
+                    "UPDATE blogs SET id = ? WHERE id = ?",
+                    blogItemList.get(i).getId(), blogItemList.get(i).getId()+1
+            );
         }
     }
 
