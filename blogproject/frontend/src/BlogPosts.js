@@ -7,18 +7,6 @@ export default class BlogPosts extends Component {
         super(props);
         this.state = {
             blogpostdata: [
-                {
-                    id: 1,
-                    title: "Test",
-                    author: "Lauri Laiho",
-                    content: "Is content"
-                },
-                {
-                    id: 2,
-                    title: "Test",
-                    author: "Lauri Laiho",
-                    content: "Hello World!"
-                }
             ]
         }
     }
@@ -27,7 +15,7 @@ export default class BlogPosts extends Component {
         console.log("componentDidMount()");
         fetch('/getBlogItems')
             .then(response => response.json())
-            .then(data => this.setState({blogpostdata: data.content}));
+            .then(data => this.setState({blogpostdata: data}));
     }
 
 /*
