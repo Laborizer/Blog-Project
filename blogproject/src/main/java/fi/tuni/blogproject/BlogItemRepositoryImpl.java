@@ -28,6 +28,8 @@ public class BlogItemRepositoryImpl implements BlogItemRepository {
 
     @Override
     public void deleteById(Long aLong) {
+        aLong = aLong-1;
+
         int index = Math.toIntExact(aLong);
         blogItemList.remove(index);
 
@@ -36,7 +38,7 @@ public class BlogItemRepositoryImpl implements BlogItemRepository {
 
             jdbcTemplate.update(
                     "UPDATE blogs SET id = ? WHERE id = ?",
-                    blogItemList.get(i).getId(), blogItemList.get(i).getId()+1
+                    blogItemList.get(i).getId()-1, blogItemList.get(i).getId()
             );
         }
     }

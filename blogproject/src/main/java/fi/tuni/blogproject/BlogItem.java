@@ -1,12 +1,16 @@
 package fi.tuni.blogproject;
 
+import java.util.Date;
+
 public class BlogItem {
     long id;
+    Date creationDate;
     String author;
     String title;
     String content;
 
-    public BlogItem(long id, String author, String title, String content) {
+    public BlogItem(long id, Date creationDate, String author, String title, String content) {
+        this.creationDate = creationDate;
         this.author = author;
         this.title = title;
         this.content = content;
@@ -18,7 +22,15 @@ public class BlogItem {
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.id = id+1;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getAuthor() {

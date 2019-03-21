@@ -21,12 +21,12 @@ public class Controller {
     @GetMapping("/addBlogItem/{author}/{title}/{content}")
     public BlogItem addBlogItem(@PathVariable String author, @PathVariable String title, @PathVariable String content) {
 
-        BlogItem b = new BlogItem(blogItemRepository.getSize(), author, title, content);
+        BlogItem b = new BlogItem(blogItemRepository.getSize(), new Date(), author, title, content);
 
         blogItemRepository.save(b);
         jdbcTemplate.update(
-                "INSERT INTO blogs (id, author, title, content) VALUES (?, ?, ?, ?)",
-                b.getId(), b.getAuthor(), b.getTitle(), b.getContent()
+                "INSERT INTO blogs (id, creationDate, author, title, content) VALUES (?, ?, ?, ?, ?)",
+                b.getId(), b.getCreationDate(), b.getAuthor(), b.getTitle(), b.getContent()
         );
 
         return b;
