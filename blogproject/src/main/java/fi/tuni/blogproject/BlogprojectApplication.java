@@ -29,7 +29,7 @@ public class BlogprojectApplication implements CommandLineRunner {
         createTables();
 
         BlogItem b = new BlogItem(blogItemRepository.getSize(), new Date(), "Author", "Title", "Content");
-        Comment c = new Comment(blogItemRepository.getSize(), new Date(), "Commenter", "Good post!");
+        Comment c = new Comment((long) 1, new Date(), "Commenter", "Good post!");
 
 		jdbcTemplate.update(
 				"INSERT INTO blogs (id, creationDate, author, title, content) VALUES (?, ?, ?, ?, ?)",

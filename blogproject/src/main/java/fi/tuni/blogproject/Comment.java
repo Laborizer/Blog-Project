@@ -20,7 +20,7 @@ public class Comment {
     }
 
     public void setBlogId(Long blogId) {
-        this.blogId = blogId+1;
+        this.blogId = blogId;
     }
 
     public Date getCommentDate() {

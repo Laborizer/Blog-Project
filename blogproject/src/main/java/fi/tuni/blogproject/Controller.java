@@ -59,6 +59,20 @@ public class Controller {
         return blogItemRepository.findById(blogId);
     }
 
+    @GetMapping("/addComment/{blogId}/{author}/{content}")
+    public Comment addComment(@PathVariable Long blogId, @PathVariable String author, @PathVariable String content) {
+
+        Comment c = new Comment(blogId, new Date(), author, content);
+
+        commentRepository.save(c);
+        jdbcTemplate.update(
+                "INSERT INTO comments (blogId, commentDate, author, content) VALUES (?, ?, ?, ?)",
+                c.getBlogId(), c.getCommentDate(), c.getAuthor(), c.getContent()
+        );
+
+        return c;
+    }
+
     @GetMapping("getComments/{blogId}")
     public Iterable<Comment> getComments(@PathVariable Long blogId) {
         return commentRepository.findAll(blogId);
