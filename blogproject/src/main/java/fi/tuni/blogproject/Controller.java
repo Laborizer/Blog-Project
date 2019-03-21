@@ -16,6 +16,9 @@ public class Controller {
     BlogItemRepository blogItemRepository;
 
     @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
     JdbcTemplate jdbcTemplate;
 
     @GetMapping("/addBlogItem/{author}/{title}/{content}")
@@ -38,6 +41,11 @@ public class Controller {
                 "DELETE FROM blogs WHERE id=?",
                 blogId
         );
+        jdbcTemplate.update(
+                "DELETE FROM comments WHERE blogId=?",
+                blogId);
+
+        commentRepository.deleteById(blogId);
         blogItemRepository.deleteById(blogId);
     }
 
@@ -49,5 +57,10 @@ public class Controller {
     @GetMapping("getBlogItem/{blogId}")
     public Optional<BlogItem> getBlogItem(@PathVariable Long blogId) {
         return blogItemRepository.findById(blogId);
+    }
+
+    @GetMapping("getComments/{blogId}")
+    public Iterable<Comment> getComments(@PathVariable Long blogId) {
+        return commentRepository.findAll(blogId);
     }
 }
