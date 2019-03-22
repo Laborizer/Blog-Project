@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -23,10 +24,29 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public void deleteById(Long aLong) {
+        int index = Math.toIntExact(aLong);
+
+        LinkedList<Comment> tempList = new LinkedList<>();
+
+        int newId = 1;
         for (Comment c : commentList) {
-            if (c.getBlogId() == aLong) {
-                commentList.remove(aLong);
+            if (c.getBlogId() != index) {
+                tempList.add(c);
+
+                jdbcTemplate.update(
+                        "UPDATE comments SET id = ? WHERE id = ?",
+                        newId ,c.getId()
+                );
+                newId++;
             }
+        }
+        commentList.clear();
+        commentList = tempList;
+
+        int x = 0;
+        for (int i=0; i<commentList.size(); i++) {
+            commentList.get(i).setId(x);
+            x++;
         }
     }
 

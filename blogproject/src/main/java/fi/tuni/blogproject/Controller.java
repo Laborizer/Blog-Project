@@ -62,12 +62,12 @@ public class Controller {
     @GetMapping("/addComment/{blogId}/{author}/{content}")
     public Comment addComment(@PathVariable Long blogId, @PathVariable String author, @PathVariable String content) {
 
-        Comment c = new Comment(blogId, new Date(), author, content);
+        Comment c = new Comment(commentRepository.getSize(), blogId, new Date(), author, content);
 
         commentRepository.save(c);
         jdbcTemplate.update(
-                "INSERT INTO comments (blogId, commentDate, author, content) VALUES (?, ?, ?, ?)",
-                c.getBlogId(), c.getCommentDate(), c.getAuthor(), c.getContent()
+                "INSERT INTO comments (id, blogId, commentDate, author, content, likes) VALUES (?, ?, ?, ?, ?, ?)",
+                c.getId(), c.getBlogId(), c.getCommentDate(), c.getAuthor(), c.getContent(), c.getLikes()
         );
 
         return c;
@@ -76,5 +76,10 @@ public class Controller {
     @GetMapping("getComments/{blogId}")
     public Iterable<Comment> getComments(@PathVariable Long blogId) {
         return commentRepository.findAll(blogId);
+    }
+
+    @GetMapping("cSize")
+    public long size() {
+        return commentRepository.getSize();
     }
 }
