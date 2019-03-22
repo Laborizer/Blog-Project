@@ -62,7 +62,13 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public Optional<Comment> findById(Long aLong) {
-        return Optional.empty();
+        Optional<Comment> comment = null;
+        for (Comment c : commentList) {
+            if (c.getId() == aLong) {
+                comment = Optional.ofNullable(c);
+            }
+        }
+        return comment;
     }
 
     @Override

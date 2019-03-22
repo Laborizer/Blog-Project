@@ -78,8 +78,15 @@ public class Controller {
         return commentRepository.findAll(blogId);
     }
 
-    @GetMapping("cSize")
-    public long size() {
-        return commentRepository.getSize();
+    @GetMapping("likeComment/{commentId}")
+    public Optional<Comment> likeComment(@PathVariable Long commentId) {
+        Comment c = commentRepository.findById(commentId).get();
+        c.setLike(1);
+
+        jdbcTemplate.update(
+                "UPDATE comments SET likes = ? WHERE id = ?",
+                 c.getLikes() ,commentId
+        );
+        return commentRepository.findById(commentId);
     }
 }
