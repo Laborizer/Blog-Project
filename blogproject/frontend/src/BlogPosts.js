@@ -30,6 +30,7 @@ export default class BlogPosts extends Component {
             this.state.blogpostdata.map((item) =>
                 <div key={item.id}>
                     <BlogPostTest
+                        id={item.id}
                         title={item.title}
                         author={item.author}
                         content={item.content}

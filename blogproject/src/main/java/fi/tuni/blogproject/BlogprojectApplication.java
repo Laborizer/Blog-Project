@@ -22,12 +22,21 @@ public class BlogprojectApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
         jdbcTemplate.execute("CREATE TABLE blogs(id int, author varchar(255), title varchar(255), content text)");
-		jdbcTemplate.update(
-				"INSERT INTO blogs (id, author, title, content) VALUES (?, ?, ?, ?)",
-				1, "Lauri", "Test", "Test Post from Backend"
-		);
-        BlogItem b = new BlogItem(repository.getSize(), "Lauri", "Test", "Content from backend");
 
+        BlogItem b = new BlogItem(repository.getSize(), "Lauri", "Test", "Heiii Pauline!");
         repository.save(b);
+		BlogItem c = new BlogItem(repository.getSize(), "Jimi", "Test2", "More content from backend");
+        repository.save(c);
+
+        jdbcTemplate.update(
+                "INSERT INTO blogs (id, author, title, content) VALUES (?, ?, ?, ?)",
+                b.getId(), b.getAuthor(), b.getTitle(), b.getContent()
+        );
+        jdbcTemplate.update(
+                "INSERT INTO blogs (id, author, title, content) VALUES (?, ?, ?, ?)",
+                c.getId(), c.getAuthor(), c.getTitle(), c.getContent()
+        );
+
+        System.out.println(repository.getSize());
 	}
 }

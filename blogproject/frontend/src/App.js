@@ -23,20 +23,33 @@ const navItems = [{
 }];
 
 class App extends Component {
+
+    addPost = () => {
+        console.log("addPost");
+    }
+
     render() {
         const style = {
         };
 
+        const postButtonStyle = {
+            margin: 10,
+            minWidth: 320,
+            float: 'middle'
+        };
+
         return (
             <div className="BlogApp">
-                <Toolbar
+                <Toolbar className="md-toolbar-relative"
                       colored
                       title="Blog-Pro"
                     />
-                    {<BlogPosts/>}
-                <div>
-                    <Button floating primary swapTheming>favorite</Button>
-                </div>
+                <Button className="addPost"
+                    style={postButtonStyle}
+                    raised
+                    secondary swapTheming
+                    onClick={this.addPost}>Make a new Post</Button>
+                {<BlogPosts/>}
             </div>
         );
     }
