@@ -21,7 +21,10 @@ export default class BlogPostTest extends PureComponent {
         return (
             <div>
                 <Card style={style} classname="blogpost">
-                    <CardTitle title={this.props.title} subtitle={"By: " + this.props.author}/>
+                    <CardTitle
+                     title={this.props.title}
+                     subtitle={"By: " + this.props.author + ", " + this.props.creationDate}
+                    />
                     <CardText>
                         <p>{this.props.content}</p>
 
