@@ -10,15 +10,8 @@ public class BlogItem {
     String title;
     String content;
 
-    public BlogItem(long id, String creationDate, String author, String title, String content) {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-
-        try {
-            this.creationDate = format.parse(creationDate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public BlogItem(long id, Date creationDate, String author, String title, String content) {
+        this.creationDate = creationDate;
         this.author = author;
         this.title = title;
         this.content = content;
