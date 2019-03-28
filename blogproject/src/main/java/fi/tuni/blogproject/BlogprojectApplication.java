@@ -27,23 +27,6 @@ public class BlogprojectApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
         createTables();
-
-        BlogItem b = new BlogItem(blogItemRepository.getSize(), new Date(), "Author", "Title", "Content");
-
-        Comment c = new Comment(commentRepository.getSize(), (long) 1, new Date(), "Commenter", "Good post!");
-
-		jdbcTemplate.update(
-				"INSERT INTO blogs (id, creationDate, author, title, content) VALUES (?, ?, ?, ?, ?)",
-				b.getId(), b.getCreationDate(), b.getAuthor(), b.getTitle(), b.getContent()
-		);
-
-        blogItemRepository.save(b);
-
-        jdbcTemplate.update(
-                "INSERT INTO comments (id, blogId, commentDate, author, content, likes) VALUES (?, ?, ?, ?, ?, ?)",
-                c.getId(), c.getBlogId(), c.getCommentDate(), c.getAuthor(), c.getContent(), c.getLikes()
-        );
-        commentRepository.save(c);
 	}
 
 	public void createTables() {

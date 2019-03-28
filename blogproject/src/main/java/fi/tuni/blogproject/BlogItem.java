@@ -10,11 +10,15 @@ public class BlogItem {
     String content;
 
     public BlogItem(long id, Date creationDate, String author, String title, String content) {
+        this.id = 1;
         this.creationDate = creationDate;
         this.author = author;
         this.title = title;
         this.content = content;
-        setId(id);
+        //setId(id);
+    }
+
+    public BlogItem() {
     }
 
     public long getId() {
