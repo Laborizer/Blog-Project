@@ -7,7 +7,7 @@ import {
 import './App.scss';
 import BlogPosts from './BlogPosts.js';
 
-import NewPostDialog from './NewPostDialog';
+import NewPostDialog from './NewPostDialog.jsx';
 
 const styles = {
   content: { minHeight: 'auto' },
@@ -44,11 +44,7 @@ class App extends Component {
                       colored
                       title="Blog-Pro"
                     />
-                <Button className="addPost"
-                    style={postButtonStyle}
-                    raised
-                    secondary swapTheming
-                    onClick={this.addPost}>Make a new Post</Button>
+                {<NewPostDialog/>}
                 {<BlogPosts/>}
             </div>
         );

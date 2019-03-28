@@ -18,13 +18,6 @@ export default class BlogPosts extends Component {
             .then(data => this.setState({blogpostdata: data}));
     }
 
-/*
-    getBlogData = () => {
-        fetch('/blogposts')
-            .then(response => response.json())
-            .then(data => this.setState({data: data.content}));
-    } */
-
     render() {
         return (
             this.state.blogpostdata.map((item) =>
