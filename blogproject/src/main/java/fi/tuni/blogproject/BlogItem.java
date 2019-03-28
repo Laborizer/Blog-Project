@@ -22,7 +22,10 @@ public class BlogItem {
         this.author = author;
         this.title = title;
         this.content = content;
-        setId(id);
+        //setId(id);
+    }
+
+    public BlogItem() {
     }
 
     public long getId() {
