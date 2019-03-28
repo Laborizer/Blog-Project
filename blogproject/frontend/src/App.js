@@ -7,7 +7,7 @@ import {
 import './App.scss';
 import BlogPosts from './BlogPosts.js';
 
-import NewPostDialog from './NewPostDialog';
+import NewPostDialog from './NewPostDialog.jsx';
 
 const styles = {
   content: { minHeight: 'auto' },
@@ -23,20 +23,29 @@ const navItems = [{
 }];
 
 class App extends Component {
+
+    addPost = () => {
+        console.log("addPost");
+    }
+
     render() {
         const style = {
         };
 
+        const postButtonStyle = {
+            margin: 10,
+            minWidth: 320,
+            float: 'middle'
+        };
+
         return (
             <div className="BlogApp">
-                <Toolbar
+                <Toolbar className="md-toolbar-relative"
                       colored
                       title="Blog-Pro"
                     />
-                    {<BlogPosts/>}
-                <div>
-                    <Button floating primary swapTheming>favorite</Button>
-                </div>
+                {<NewPostDialog/>}
+                {<BlogPosts/>}
             </div>
         );
     }
