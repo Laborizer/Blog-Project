@@ -27,6 +27,7 @@ export default class BlogPosts extends Component {
                         title={item.title}
                         author={item.author}
                         content={item.content}
+                        creationDate={item.creationDate}
                     />
                 </div>
             )
