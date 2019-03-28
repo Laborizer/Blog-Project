@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.Date;
+
 @SpringBootApplication
 public class BlogprojectApplication implements CommandLineRunner {
 
@@ -13,7 +15,10 @@ public class BlogprojectApplication implements CommandLineRunner {
     JdbcTemplate jdbcTemplate;
 
 	@Autowired
-    BlogItemRepository repository;
+    BlogItemRepository blogItemRepository;
+
+	@Autowired
+    CommentRepository commentRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BlogprojectApplication.class, args);
@@ -21,22 +26,31 @@ public class BlogprojectApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-        jdbcTemplate.execute("CREATE TABLE blogs(id int, author varchar(255), title varchar(255), content text)");
+        createTables();
 
-        BlogItem b = new BlogItem(repository.getSize(), "Lauri", "Test", "Heiii Pauline!");
-        repository.save(b);
-		BlogItem c = new BlogItem(repository.getSize(), "Jimi", "Test2", "More content from backend");
-        repository.save(c);
+        BlogItem b = new BlogItem(blogItemRepository.getSize(), new Date(), "Author", "Title", "Content");
+
+        Comment c = new Comment(commentRepository.getSize(), (long) 1, new Date(), "Commenter", "Good post!");
+
+		jdbcTemplate.update(
+				"INSERT INTO blogs (id, creationDate, author, title, content) VALUES (?, ?, ?, ?, ?)",
+				b.getId(), b.getCreationDate(), b.getAuthor(), b.getTitle(), b.getContent()
+		);
+
+        blogItemRepository.save(b);
 
         jdbcTemplate.update(
-                "INSERT INTO blogs (id, author, title, content) VALUES (?, ?, ?, ?)",
-                b.getId(), b.getAuthor(), b.getTitle(), b.getContent()
+                "INSERT INTO comments (id, blogId, commentDate, author, content, likes) VALUES (?, ?, ?, ?, ?, ?)",
+                c.getId(), c.getBlogId(), c.getCommentDate(), c.getAuthor(), c.getContent(), c.getLikes()
         );
-        jdbcTemplate.update(
-                "INSERT INTO blogs (id, author, title, content) VALUES (?, ?, ?, ?)",
-                c.getId(), c.getAuthor(), c.getTitle(), c.getContent()
-        );
-
-        System.out.println(repository.getSize());
+        commentRepository.save(c);
 	}
+
+	public void createTables() {
+        jdbcTemplate.execute("CREATE TABLE blogs(id int, creationDate date, author varchar(255)," +
+                "title varchar(255), content text)");
+
+        jdbcTemplate.execute("CREATE TABLE comments(id int, blogId int, commentDate date, author varchar(255)," +
+                "content text, likes int)");
+    }
 }
