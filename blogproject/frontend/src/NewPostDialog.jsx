@@ -27,17 +27,18 @@ export default class NewBlogPost extends PureComponent {
             "title": this.titleTextField.current.value,
             "author": this.authorTextField.current.value,
             "content": this.contentTextField.current.value,
-            "time": new Date().getTime()
+            "creationDate": new Date().getTime()
         }
+        console.log(newPost)
 
-        fetch('./post', {
+        fetch('./addBlogItem', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(newPost)
-        });
-        window.location.reload();
+        }).then(response => response.json()).then(json => console.log(json));
+        //window.location.reload();
     }
 
     render() {
@@ -60,20 +61,20 @@ export default class NewBlogPost extends PureComponent {
                         id="title"
                         label="Title"
                         required={true}
-                        ref={this.titleField}
+                        ref={this.titleTextField}
                     />
                     <TextField
                         id="author"
                         label={"Author"}
                         required={true}
-                        ref={this.authorField}
+                        ref={this.authorTextField}
                     />
                     <TextField
                         id="content"
                         label="Content"
                         rows={5}
                         required={true}
-                        ref={this.contentField}
+                        ref={this.contentTextField}
                     />
                 </DialogContainer>
             </div>
