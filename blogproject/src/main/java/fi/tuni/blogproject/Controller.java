@@ -2,9 +2,7 @@ package fi.tuni.blogproject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,14 +20,16 @@ public class Controller {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    @GetMapping("/addBlogItem/{author}/{title}/{content}")
-    public BlogItem addBlogItem(@PathVariable String author, @PathVariable String title, @PathVariable String content) {
-
-        BlogItem b = new BlogItem(blogItemRepository.getSize(), new Date(), author, title, content);
-
+    @RequestMapping(value="/addBlogItem", method= RequestMethod.POST)
+    @ResponseBody
+    public BlogItem handleRequest(@RequestBody BlogItem b) {
+        b.setId(Math.toIntExact(blogItemRepository.getSize()));
         blogItemRepository.save(b);
+
+
         jdbcTemplate.update(
-                "INSERT INTO blogs (id, creationDate, author, title, content) VALUES (?, ?, ?, ?, ?)",
+                "INSERT INTO blogs (id, creationDate, author, title, content) " +
+                        "VALUES (?, ?, ?, ?, ?)",
                 b.getId(), b.getCreationDate(), b.getAuthor(), b.getTitle(), b.getContent()
         );
 
@@ -70,8 +70,8 @@ public class Controller {
 
         long setId = (long) jdbcTemplate.queryForObject(
                 sqlId, new Object[] { blogId }, long.class);
-        Date setCreation = (Date) jdbcTemplate.queryForObject(
-                sqlCreation, new Object[] { blogId }, Date.class);
+        String setCreation = (String) jdbcTemplate.queryForObject(
+                sqlCreation, new Object[] { blogId }, String.class);
         String setAuthor = (String) jdbcTemplate.queryForObject(
                 sqlAuthor, new Object[] { blogId }, String.class);
         String setTitle = (String) jdbcTemplate.queryForObject(

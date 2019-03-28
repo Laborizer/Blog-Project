@@ -28,7 +28,7 @@ public class BlogprojectApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
         createTables();
 
-        BlogItem b = new BlogItem(blogItemRepository.getSize(), new Date(), "Author", "Title", "Content");
+        BlogItem b = new BlogItem(blogItemRepository.getSize(), "01-01-2019", "Author", "Title", "Content");
 
         Comment c = new Comment(commentRepository.getSize(), (long) 1, new Date(), "Commenter", "Good post!");
 
