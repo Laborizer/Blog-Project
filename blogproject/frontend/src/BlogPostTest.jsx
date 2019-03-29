@@ -13,6 +13,20 @@ export default class BlogPostTest extends PureComponent {
         console.log("Commented on: " + this.props.id);
     }
 
+    makeDate = () => {
+        var currentDate = new Date(this.props.creationDate);
+
+        var date = currentDate.getDate();
+        var month = currentDate.getMonth(); //Be careful! January is 0 not 1
+        var year = currentDate.getFullYear();
+
+        var dateString = date + "." +(month + 1) + "." + year;
+
+        return (
+            dateString
+        )
+    }
+
     render() {
         const style = {
             margin: 50,
@@ -23,7 +37,7 @@ export default class BlogPostTest extends PureComponent {
                 <Card style={style} classname="blogpost">
                     <CardTitle
                      title={this.props.title}
-                     subtitle={"By: " + this.props.author + ", " + this.props.creationDate}
+                     subtitle={"By: " + this.props.author + ", " + this.makeDate()}
                     />
                     <CardText>
                         <p>{this.props.content}</p>
