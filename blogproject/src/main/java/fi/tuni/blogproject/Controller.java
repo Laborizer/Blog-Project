@@ -70,8 +70,8 @@ public class Controller {
 
         long setId = (long) jdbcTemplate.queryForObject(
                 sqlId, new Object[] { blogId }, long.class);
-        String setCreation = (String) jdbcTemplate.queryForObject(
-                sqlCreation, new Object[] { blogId }, String.class);
+        Date setCreation = (Date) jdbcTemplate.queryForObject(
+                sqlCreation, new Object[] { blogId }, Date.class);
         String setAuthor = (String) jdbcTemplate.queryForObject(
                 sqlAuthor, new Object[] { blogId }, String.class);
         String setTitle = (String) jdbcTemplate.queryForObject(

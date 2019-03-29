@@ -33,14 +33,8 @@ public class BlogItem {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-
-        try {
-            this.creationDate = format.parse(creationDate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getAuthor() {
