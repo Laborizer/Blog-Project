@@ -13,6 +13,25 @@ export default class BlogPostTest extends PureComponent {
         console.log("Commented on: " + this.props.id);
     }
 
+    delete = () => {
+        let url = "./deleteBlogItem/" + this.props.id;
+        let deletedPost = {
+            "id": this.props.id,
+            "title": this.props.title,
+            "author": this.props.author,
+            "content": this.props.content,
+            "creationDate": this.props.creationDate
+        };
+
+        fetch(url, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(deletedPost)
+        }).then(response => response.json()).then(json => console.log(json));
+    }
+
     makeDate = () => {
         var currentDate = new Date(this.props.creationDate);
 
@@ -61,6 +80,7 @@ export default class BlogPostTest extends PureComponent {
                         <Button raised onClick={this.comment}>Comment</Button>
                         {<Comments postId={this.props.id}
                         />}
+                        <Button raised onClick={this.delete}>Delete</Button>
                     </CardText>
                 </Card>
             </div>

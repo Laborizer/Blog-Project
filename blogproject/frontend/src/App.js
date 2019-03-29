@@ -8,6 +8,7 @@ import './App.scss';
 import BlogPosts from './BlogPosts.js';
 
 import NewPostDialog from './NewPostDialog.jsx';
+import Search from './Search.jsx';
 
 const styles = {
   content: { minHeight: 'auto' },
@@ -43,6 +44,7 @@ class App extends Component {
                 <Toolbar className="md-toolbar-relative"
                       colored
                       title="Blog-Pro"
+                      children={<Search/>}
                     />
                 {<NewPostDialog/>}
                 {<BlogPosts/>}
