@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
@@ -50,13 +51,38 @@ public class Controller {
     }
 
     @GetMapping("/getBlogItems")
-    public Iterable<BlogItem> getBlogItems() {
-        return blogItemRepository.findAll();
+    public ArrayList<Optional<BlogItem>> getBlogItems() {
+        ArrayList<Optional<BlogItem>> list = new ArrayList<>();
+
+        for (long i=1; i<=blogItemRepository.getSize(); i++) {
+            list.add(getBlogItem(i));
+        }
+        return list;
     }
 
     @GetMapping("getBlogItem/{blogId}")
     public Optional<BlogItem> getBlogItem(@PathVariable Long blogId) {
-        return blogItemRepository.findById(blogId);
+        String sqlId = "SELECT id FROM blogs WHERE ID=?";
+        String sqlCreation = "SELECT creationDate FROM blogs WHERE ID=?";
+        String sqlAuthor = "SELECT author FROM blogs WHERE ID=?";
+        String sqlTitle = "SELECT title FROM blogs WHERE ID=?";
+        String sqlContent = "SELECT content FROM blogs WHERE ID=?";
+
+        long setId = (long) jdbcTemplate.queryForObject(
+                sqlId, new Object[] { blogId }, long.class);
+        Date setCreation = (Date) jdbcTemplate.queryForObject(
+                sqlCreation, new Object[] { blogId }, Date.class);
+        String setAuthor = (String) jdbcTemplate.queryForObject(
+                sqlAuthor, new Object[] { blogId }, String.class);
+        String setTitle = (String) jdbcTemplate.queryForObject(
+                sqlTitle, new Object[] { blogId }, String.class);
+        String setContent = (String) jdbcTemplate.queryForObject(
+                sqlContent, new Object[] { blogId }, String.class);
+
+        BlogItem test = new BlogItem(setId-1, setCreation, setAuthor, setTitle, setContent);
+
+        return Optional.of(test);
+
     }
 
     @GetMapping("/addComment/{blogId}/{author}/{content}")
