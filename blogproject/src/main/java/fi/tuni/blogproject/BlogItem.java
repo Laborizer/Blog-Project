@@ -1,5 +1,6 @@
 package fi.tuni.blogproject;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BlogItem {
