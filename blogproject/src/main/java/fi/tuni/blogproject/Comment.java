@@ -10,14 +10,16 @@ public class Comment {
     String content;
     int likes;
 
-    public Comment(Long id, Long blogId, Date commentDate, String author, String content) {
+    public Comment(Long id, Long blogId, Date commentDate, String author, String content, int likes) {
         setId(id);
         setBlogId(blogId);
         this.commentDate = commentDate;
         this.author = author;
         this.content = content;
-        this.likes = 0;
+        this.likes = likes;
     }
+
+    public Comment() {}
 
     public Long getId() {
         return id;
