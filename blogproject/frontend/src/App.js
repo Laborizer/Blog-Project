@@ -14,8 +14,6 @@ const styles = {
   content: { minHeight: 'auto' },
 };
 
-const TO_PREFIX = '/blog';
-
 class App extends Component {
 
     addPost = () => {
@@ -37,8 +35,9 @@ class App extends Component {
                 <Toolbar
                       colored
                       title="Blog-Pro"
-                      children={[<Search/>, <NewPostDialog/>]}
+                      children={<Search/>}
                     />
+                {<NewPostDialog/>}
                 {<BlogPosts/>}
             </div>
         );

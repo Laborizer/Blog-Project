@@ -8,14 +8,17 @@ export default class BlogPostTest extends PureComponent {
     constructor(props) {
         super(props);
 
+        this.commentTextField = React.createRef();
+        this.nicknameTextField = React.createRef();
+
     }
 
     comment = () => {
-        let url = "./deleteBlogItem/" + this.props.id;
+        let url = "./addComment"
         let postedComment = {
             "blogId": this.props.id,
-            "author": this.props.author,
-            "content": this.props.content
+            "author": this.nicknameTextField.current.value,
+            "content": this.commentTextField.current.value,
         };
 
         fetch(url, {
@@ -90,12 +93,14 @@ export default class BlogPostTest extends PureComponent {
                               label="Comment"
                               lineDirection="center"
                               className="md-cell md-cell--bottom"
+                              ref={this.commentTextField}
                         />
                         <TextField
                               id={"commentAuthorField" + this.props.id}
                               label="Nickname"
                               lineDirection="center"
                               className="md-cell md-cell--bottom"
+                              ref={this.nicknameTextField}
                         />
                         <Button raised onClick={this.comment}>Comment</Button>
                         {<Comments postId={this.props.id}/>}
