@@ -7,21 +7,16 @@ export default class Comments extends Component {
         super(props);
         this.state = {
             commentData: [
-            {
-                id: 0,
-                postId: 0,
-                author: "Laboryyser",
-                content: "This is a commment"
-            }
             ]
         }
     }
 
     componentDidMount() {
         console.log("Comments: componentDidMount()");
-        /* fetch('/getComments')
-                    .then(response => response.json())
-                    .then(data => this.setState({commentData: data})); */
+        let url = '/getComments/' + this.props.postId;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => this.setState({commentData: data}));
     }
 
     render() {

@@ -36,7 +36,7 @@ public class Controller {
         return b;
     }
 
-    @GetMapping("/deleteBlogItem/{blogId}")
+    @DeleteMapping("/deleteBlogItem/{blogId}")
     public void deleteBlogItem(@PathVariable Long blogId) {
         jdbcTemplate.update(
                 "DELETE FROM blogs WHERE id=?",
