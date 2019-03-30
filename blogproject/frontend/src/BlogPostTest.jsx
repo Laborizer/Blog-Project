@@ -7,10 +7,27 @@ import './App.scss';
 export default class BlogPostTest extends PureComponent {
     constructor(props) {
         super(props);
+
     }
 
     comment = () => {
-        console.log("Commented on: " + this.props.id);
+        let url = "./deleteBlogItem/" + this.props.id;
+        let postedComment = {
+            "blogId": this.props.id,
+            "author": this.props.author,
+            "content": this.props.content
+        };
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(postedComment)
+        }).then(response => response.json()).then(json => console.log(json));
+        setTimeout(function(){
+            window.location.reload()
+        }, 250);
     }
 
     delete = () => {
@@ -30,6 +47,9 @@ export default class BlogPostTest extends PureComponent {
             },
             body: JSON.stringify(deletedPost)
         }).then(response => response.json()).then(json => console.log(json));
+        setTimeout(function(){
+            window.location.reload()
+        }, 250);
     }
 
     makeDate = () => {
@@ -78,8 +98,7 @@ export default class BlogPostTest extends PureComponent {
                               className="md-cell md-cell--bottom"
                         />
                         <Button raised onClick={this.comment}>Comment</Button>
-                        {<Comments postId={this.props.id}
-                        />}
+                        {<Comments postId={this.props.id}/>}
                         <Button raised onClick={this.delete}>Delete</Button>
                     </CardText>
                 </Card>

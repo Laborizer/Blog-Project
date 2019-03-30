@@ -16,13 +16,6 @@ const styles = {
 
 const TO_PREFIX = '/blog';
 
-const navItems = [{
-    label: 'NewPostDialog',
-    to: `${TO_PREFIX}/new`,
-    exact: true,
-    //icon: 'inbox',
-}];
-
 class App extends Component {
 
     addPost = () => {
@@ -41,12 +34,11 @@ class App extends Component {
 
         return (
             <div className="BlogApp">
-                <Toolbar className="md-toolbar-relative"
+                <Toolbar
                       colored
                       title="Blog-Pro"
-                      children={<Search/>}
+                      children={[<Search/>, <NewPostDialog/>]}
                     />
-                {<NewPostDialog/>}
                 {<BlogPosts/>}
             </div>
         );
