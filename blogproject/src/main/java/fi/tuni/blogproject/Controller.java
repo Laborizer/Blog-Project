@@ -88,7 +88,7 @@ public class Controller {
     @GetMapping("/addComment/{blogId}/{author}/{content}")
     public Comment addComment(@PathVariable Long blogId, @PathVariable String author, @PathVariable String content) {
 
-        Comment c = new Comment(commentRepository.getSize(), blogId, new Date(), author, content);
+        Comment c = new Comment(commentRepository.getSize(), blogId, new Date(), author, content, 0);
 
         commentRepository.save(c);
         jdbcTemplate.update(
@@ -101,7 +101,38 @@ public class Controller {
 
     @GetMapping("getComments/{blogId}")
     public Iterable<Comment> getComments(@PathVariable Long blogId) {
-        return commentRepository.findAll(blogId);
+        ArrayList<Comment> comments = new ArrayList<>();
+
+        for (int i=1; i<=commentRepository.getSize(); i++) {
+            String sqlBlogId = "SELECT blogId FROM comments WHERE ID=?";
+
+            long setBlogId = (long) jdbcTemplate.queryForObject(
+                    sqlBlogId, new Object[] { i }, long.class);
+
+            if (setBlogId == blogId) {
+                String sqlId = "SELECT id FROM comments WHERE ID=?";
+                String sqlDate = "SELECT commentDate FROM comments WHERE ID=?";
+                String sqlAuthor = "SELECT author FROM comments WHERE ID=?";
+                String sqlContent = "SELECT content FROM comments WHERE ID=?";
+                String sqlLikes = "SELECT likes FROM comments WHERE ID=?";
+
+                long setId = (long) jdbcTemplate.queryForObject(
+                        sqlId, new Object[] { i }, long.class);
+                Date setDate = (Date) jdbcTemplate.queryForObject(
+                        sqlDate, new Object[] { i }, Date.class);
+                String setAuthor = (String) jdbcTemplate.queryForObject(
+                        sqlAuthor, new Object[] { i }, String.class);
+                String setContent = (String) jdbcTemplate.queryForObject(
+                        sqlContent, new Object[] { i }, String.class);
+                int setLikes = (int) jdbcTemplate.queryForObject(
+                        sqlLikes, new Object[] { i }, int.class);
+
+                Comment comment = new Comment(setId-1, setBlogId, setDate, setAuthor, setContent, setLikes);
+                comments.add(comment);
+            }
+
+        }
+        return comments;
     }
 
     @GetMapping("likeComment/{commentId}")
