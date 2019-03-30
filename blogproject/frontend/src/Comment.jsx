@@ -11,7 +11,8 @@ export default class Comment extends PureComponent {
 
     render() {
         const style = {
-            margin: 5,
+            marginTop: 5,
+            marginBottom: 5,
             maxWidth: 320,
         }
         return (
