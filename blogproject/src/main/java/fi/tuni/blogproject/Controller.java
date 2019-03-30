@@ -85,10 +85,11 @@ public class Controller {
 
     }
 
-    @GetMapping("/addComment/{blogId}/{author}/{content}")
-    public Comment addComment(@PathVariable Long blogId, @PathVariable String author, @PathVariable String content) {
-
-        Comment c = new Comment(commentRepository.getSize(), blogId, new Date(), author, content, 0);
+    @RequestMapping(value="/addComment", method= RequestMethod.POST)
+    @ResponseBody
+    public Comment addComment(@RequestBody Comment c) {
+        c.setId(commentRepository.getSize());
+        c.setLike(0);
 
         commentRepository.save(c);
         jdbcTemplate.update(
