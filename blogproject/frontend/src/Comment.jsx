@@ -4,9 +4,37 @@ import React, {PureComponent} from "react";
 import './App.scss';
 
 export default class Comment extends PureComponent {
+    constructor(props) {
+            super(props);
+    }
 
     like = () => {
-        console.log("Liked: " + this.props.id);
+        console.log("Liked: " + this.props.id + " On post: " + this.props.blogId);
+        let url = "/likeComment"
+        /*
+        let likedComment = {
+            "id": this.props.id
+        }
+        */
+        let likedComment = {
+            "id": this.props.id,
+            "blogId": this.props.blogId,
+            "commentDate": this.props.commentDate,
+            "author": this.props.author,
+            "content": this.props.content,
+            "likes": this.props.likes
+        }
+        console.log(likedComment);
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(likedComment)
+        }).then(response => response.json()).then(json => console.log(json));
+        setTimeout(function(){
+            window.location.reload()
+        }, 250);
     }
 
     render() {
@@ -23,7 +51,8 @@ export default class Comment extends PureComponent {
                         <p>{this.props.content}</p>
                     </CardText>
                     <CardActions>
-                        <Button style={{align: 'left'}} raised onClick={this.like}>Like</Button>
+                        <Button style={{align: 'left', marginRight: 10}} raised onClick={this.like}>Like</Button>
+                        <p>Likes: {this.props.likes}</p>
                     </CardActions>
                 </Card>
             </div>

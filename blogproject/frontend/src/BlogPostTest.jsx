@@ -90,6 +90,7 @@ export default class BlogPostTest extends PureComponent {
                     <CardText expandable>
                         <TextField
                               id={"postCommentField" + this.props.id}
+                              required
                               label="Comment"
                               lineDirection="center"
                               className="md-cell md-cell--bottom"
@@ -97,6 +98,7 @@ export default class BlogPostTest extends PureComponent {
                         />
                         <TextField
                               id={"commentAuthorField" + this.props.id}
+                              required
                               label="Nickname"
                               lineDirection="center"
                               className="md-cell md-cell--bottom"
