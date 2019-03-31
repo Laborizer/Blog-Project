@@ -7,24 +7,27 @@ import {
 import './App.scss';
 import BlogPosts from './BlogPosts.js';
 
-import NewPostDialog from './NewPostDialog';
+import NewPostDialog from './NewPostDialog.jsx';
+import Search from './Search.jsx';
 
 const styles = {
   content: { minHeight: 'auto' },
 };
 
-const TO_PREFIX = '/blog';
-
-const navItems = [{
-    label: 'NewPostDialog',
-    to: `${TO_PREFIX}/new`,
-    exact: true,
-    //icon: 'inbox',
-}];
-
 class App extends Component {
+
+    addPost = () => {
+        console.log("addPost");
+    }
+
     render() {
         const style = {
+        };
+
+        const postButtonStyle = {
+            margin: 10,
+            minWidth: 320,
+            float: 'middle'
         };
 
         return (
@@ -32,11 +35,10 @@ class App extends Component {
                 <Toolbar
                       colored
                       title="Blog-Pro"
+                      children={<Search/>}
                     />
-                    {<BlogPosts/>}
-                <div>
-                    <Button floating primary swapTheming>favorite</Button>
-                </div>
+                {<NewPostDialog/>}
+                {<BlogPosts/>}
             </div>
         );
     }

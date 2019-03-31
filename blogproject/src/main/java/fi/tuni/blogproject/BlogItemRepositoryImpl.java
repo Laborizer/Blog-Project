@@ -29,15 +29,28 @@ public class BlogItemRepositoryImpl implements BlogItemRepository {
     @Override
     public void deleteById(Long aLong) {
         int index = Math.toIntExact(aLong);
-        blogItemList.remove(index);
 
-        for (int i=index; i<blogItemList.size(); i++) {
-            blogItemList.get(i).setId(blogItemList.get(i).getId() - 1);
+        LinkedList<BlogItem> tempList = new LinkedList<>();
 
-            jdbcTemplate.update(
-                    "UPDATE blogs SET id = ? WHERE id = ?",
-                    blogItemList.get(i).getId(), blogItemList.get(i).getId()+1
-            );
+        int newId = 1;
+        for (BlogItem b : blogItemList) {
+            if (b.getId() != index) {
+                tempList.add(b);
+
+                jdbcTemplate.update(
+                        "UPDATE blogs SET id = ? WHERE id = ?",
+                        newId ,b.getId()
+                );
+                newId++;
+            }
+        }
+        blogItemList.clear();
+        blogItemList = tempList;
+
+        int x = 0;
+        for (int i=0; i<blogItemList.size(); i++) {
+            blogItemList.get(i).setId(x);
+            x++;
         }
     }
 

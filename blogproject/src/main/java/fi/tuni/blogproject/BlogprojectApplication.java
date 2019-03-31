@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.Date;
+
 @SpringBootApplication
 public class BlogprojectApplication implements CommandLineRunner {
 
@@ -13,7 +15,10 @@ public class BlogprojectApplication implements CommandLineRunner {
     JdbcTemplate jdbcTemplate;
 
 	@Autowired
-    BlogItemRepository repository;
+    BlogItemRepository blogItemRepository;
+
+	@Autowired
+    CommentRepository commentRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BlogprojectApplication.class, args);
@@ -21,13 +26,14 @@ public class BlogprojectApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-        jdbcTemplate.execute("CREATE TABLE blogs(id int, author varchar(255), title varchar(255), content text)");
-		jdbcTemplate.update(
-				"INSERT INTO blogs (id, author, title, content) VALUES (?, ?, ?, ?)",
-				1, "Lauri", "Test", "Test Post from Backend"
-		);
-        BlogItem b = new BlogItem(repository.getSize(), "Lauri", "Test", "Content from backend");
-
-        repository.save(b);
+        createTables();
 	}
+
+	public void createTables() {
+        jdbcTemplate.execute("CREATE TABLE blogs(id int, creationDate date, author varchar(255)," +
+                "title varchar(255), content text)");
+
+        jdbcTemplate.execute("CREATE TABLE comments(id int, blogId int, commentDate date, author varchar(255)," +
+                "content text, likes int)");
+    }
 }
