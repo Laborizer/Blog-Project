@@ -25,8 +25,11 @@ export default class Comments extends Component {
                 <div key={comment.id}>
                     <Comment
                         id={comment.id}
+                        blogId={comment.blogId}
+                        commentDate={comment.commentDate}
                         author={comment.author}
                         content={comment.content}
+                        likes={comment.likes}
                     />
                 </div>
             )

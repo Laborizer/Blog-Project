@@ -136,15 +136,15 @@ public class Controller {
         return comments;
     }
 
-    @GetMapping("likeComment/{commentId}")
-    public Optional<Comment> likeComment(@PathVariable Long commentId) {
-        Comment c = commentRepository.findById(commentId).get();
-        c.setLike(1);
+    @RequestMapping(value="/likeComment", method= RequestMethod.POST)
+    @ResponseBody
+    public Optional<Comment> likeComment(@RequestBody Comment c) {
+        commentRepository.findById(c.getId()-1).get().setLike(1);
 
         jdbcTemplate.update(
                 "UPDATE comments SET likes = ? WHERE id = ?",
-                 c.getLikes() ,commentId
+                commentRepository.findById(c.getId()-1).get().getLikes() ,c.getId()-1
         );
-        return commentRepository.findById(commentId);
+        return commentRepository.findById(c.getId()-1);
     }
 }
