@@ -1,18 +1,37 @@
 package fi.tuni.blogproject;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "comments")
 public class Comment {
-    Long id;
-    Long blogId;
+    @Id
+    @GeneratedValue(generator = IDGenerator.GENERATOR_NAME)
+    @GenericGenerator(
+            name = IDGenerator.GENERATOR_NAME,
+            strategy = "fi.tuni.blogproject.IDGenerator")
+    private String id;
+
+    @Column(name = "blogId")
+    String blogId;
+
+    @Column(name = "commentDate")
     Date commentDate;
+
+    @Column(name = "author")
     String author;
+
+    @Column(name = "content")
     String content;
+
+    @Column(name = "likes")
     int likes;
 
-    public Comment(Long id, Long blogId, Date commentDate, String author, String content, int likes) {
-        setId(id);
-        setBlogId(blogId);
+    public Comment(String blogId, Date commentDate, String author, String content, int likes) {
+        this.blogId = blogId;
         this.commentDate = commentDate;
         this.author = author;
         this.content = content;
@@ -21,19 +40,15 @@ public class Comment {
 
     public Comment() {}
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id+1;
-    }
-
-    public Long getBlogId() {
+    public String getBlogId() {
         return blogId;
     }
 
-    public void setBlogId(Long blogId) {
+    public void setBlogId(String blogId) {
         this.blogId = blogId;
     }
 

@@ -10,10 +10,6 @@ import java.util.Date;
 
 @SpringBootApplication
 public class BlogprojectApplication implements CommandLineRunner {
-
-	@Autowired
-    JdbcTemplate jdbcTemplate;
-
 	@Autowired
     BlogItemRepository blogItemRepository;
 
@@ -26,14 +22,5 @@ public class BlogprojectApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-        createTables();
 	}
-
-	public void createTables() {
-        jdbcTemplate.execute("CREATE TABLE blogs(id int, creationDate date, author varchar(255)," +
-                "title varchar(255), content text)");
-
-        jdbcTemplate.execute("CREATE TABLE comments(id int, blogId int, commentDate date, author varchar(255)," +
-                "content text, likes int)");
-    }
 }
