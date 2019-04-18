@@ -5,7 +5,7 @@ import {
     Toolbar
 } from 'react-md';
 import './App.scss';
-import BlogPosts from './BlogPosts.js';
+import BlogPostView from './BlogPostView.jsx';
 
 import NewPostDialog from './NewPostDialog.jsx';
 import Search from './Search.jsx';
@@ -37,8 +37,7 @@ class App extends Component {
                       title="Blog-Pro"
                       children={<Search/>}
                     />
-                {<NewPostDialog/>}
-                {<BlogPosts/>}
+                {<BlogPostView/>}
             </div>
         );
     }

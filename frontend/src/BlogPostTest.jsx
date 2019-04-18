@@ -27,13 +27,15 @@ export default class BlogPostTest extends PureComponent {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(postedComment)
-        }).then(response => response.json()).then(json => console.log(json));
-        setTimeout(function(){
-            window.location.reload()
-        }, 250);
+        }).then(response => response.json())
+        .then(json => {
+            let newDataTable = this.props.data.slice();
+            newDataTable.push(json);
+            this.props.updateCommentData(newDataTable);
+        });
     }
 
-    delete = () => {
+    deletePost = () =>{
         let url = "./deleteBlogItem/" + this.props.id;
         let deletedPost = {
             "id": this.props.id,
@@ -50,9 +52,13 @@ export default class BlogPostTest extends PureComponent {
             },
             body: JSON.stringify(deletedPost)
         }).then(response => response.json()).then(json => console.log(json));
-        setTimeout(function(){
-            window.location.reload()
-        }, 250);
+        let newDataTable = this.props.data.slice();
+        for( var i = 0; i < newDataTable.length; i++){
+           if (newDataTable[i].id === this.props.id) {
+             newDataTable.splice(i, 1);
+           }
+        }
+        this.props.updateData(newDataTable);
     }
 
     makeDate = () => {
@@ -66,6 +72,28 @@ export default class BlogPostTest extends PureComponent {
 
         return (
             dateString
+        )
+    }
+
+    showComments = () => {
+        const style = {
+            marginTop: 5,
+            marginBottom: 5,
+            maxWidth: 320,
+        }
+        return (
+            <div>
+                <Card style={style} classname="comment">
+                    <CardTitle title={this.props.title} subtitle={"By: " + this.props.author}/>
+                    <CardText>
+                        <p>{this.props.content}</p>
+                    </CardText>
+                    <CardActions>
+                        <Button style={{align: 'left', marginRight: 10}} raised onClick={this.like}>Like</Button>
+                        <p>Likes: {this.props.likes}</p>
+                    </CardActions>
+                </Card>
+            </div>
         )
     }
 
@@ -106,7 +134,7 @@ export default class BlogPostTest extends PureComponent {
                         />
                         <Button raised onClick={this.comment}>Comment</Button>
                         {<Comments postId={this.props.id}/>}
-                        <Button raised onClick={this.delete}>Delete</Button>
+                        <Button raised onClick={this.deletePost}>Delete</Button>
                     </CardText>
                 </Card>
             </div>

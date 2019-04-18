@@ -4,7 +4,7 @@ import React, {PureComponent} from "react";
 export default class Search extends PureComponent {
     render() {
         return (
-            <div  className="md-grid">
+            <div className="md-grid">
                 <TextField
                     id="searchBar"
                     lineDirection="center"

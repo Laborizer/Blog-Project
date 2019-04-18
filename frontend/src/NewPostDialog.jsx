@@ -52,10 +52,12 @@ export default class NewBlogPost extends PureComponent {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(newPost)
-        }).then(response => response.json()).then(json => console.log(json));
-        setTimeout(function(){
-            window.location.reload()
-        }, 250);
+        }).then(response => response.json())
+        .then(json => {
+            let newDataTable = this.props.data.slice();
+            newDataTable.push(json);
+            this.props.updateData(newDataTable);
+        });
     }
 
     render() {
