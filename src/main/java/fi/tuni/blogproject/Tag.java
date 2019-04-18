@@ -2,10 +2,10 @@ package fi.tuni.blogproject;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "tags")
 public class Tag {
     @Id
     @GeneratedValue(generator = IDGenerator.GENERATOR_NAME)
