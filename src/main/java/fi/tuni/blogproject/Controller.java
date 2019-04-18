@@ -3,6 +3,7 @@ package fi.tuni.blogproject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class Controller {
     }
 
     @DeleteMapping("/deleteBlogItem/{blogId}")
+    @Transactional
     public void deleteBlogItem(@PathVariable String blogId) {
         for (Comment c : commentRepository.findAll()) {
             if (c.getBlogId().equals(blogId)) {
@@ -61,7 +63,7 @@ public class Controller {
         ArrayList<Comment> comments = new ArrayList<>();
 
         for (Comment c : commentRepository.findAll()) {
-            if (c.getId().equals(blogId)) {
+            if (c.getBlogId().equals(blogId)) {
                 comments.add(c);
             }
 
@@ -72,8 +74,9 @@ public class Controller {
     @RequestMapping(value="/likeComment", method= RequestMethod.POST)
     @ResponseBody
     public Optional<Comment> likeComment(@RequestBody Comment c) {
-        commentRepository.findById(c.getId()).get().setLike(1);
+        c.setLike(1);
+        commentRepository.save(c);
 
-        return commentRepository.findById(c.getId());
+        return Optional.ofNullable(c);
     }
 }
