@@ -27,11 +27,14 @@ public class BlogItem {
     @Column(name = "content")
     String content;
 
-    public BlogItem(Date creationDate, String author, String title, String content) {
+    Tag[] blogTags;
+
+    public BlogItem(Date creationDate, String author, String title, String content, Tag[] blogTags) {
         this.creationDate = creationDate;
         this.author = author;
         this.title = title;
         this.content = content;
+        this.blogTags = blogTags;
     }
 
     public BlogItem() {
@@ -71,5 +74,13 @@ public class BlogItem {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Tag[] getBlogTags() {
+        return blogTags;
+    }
+
+    public void setBlogTags(Tag[] blogTags) {
+        this.blogTags = blogTags;
     }
 }
