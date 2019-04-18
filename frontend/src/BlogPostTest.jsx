@@ -1,6 +1,6 @@
 import {Card, CardText, CardTitle, CardActions, Button, TextField} from "react-md";
 import React, {PureComponent} from "react";
-import Comments from './Comments.js';
+import Comment from './Comment.jsx';
 
 import './App.scss';
 
@@ -81,20 +81,23 @@ export default class BlogPostTest extends PureComponent {
             marginBottom: 5,
             maxWidth: 320,
         }
-        return (
-            <div>
-                <Card style={style} classname="comment">
-                    <CardTitle title={this.props.title} subtitle={"By: " + this.props.author}/>
-                    <CardText>
-                        <p>{this.props.content}</p>
-                    </CardText>
-                    <CardActions>
-                        <Button style={{align: 'left', marginRight: 10}} raised onClick={this.like}>Like</Button>
-                        <p>Likes: {this.props.likes}</p>
-                    </CardActions>
-                </Card>
-            </div>
-        )
+        this.props.commentData.map((comment) => {
+            console.log(this.props.id + comment.blogId)
+            if (this.props.id === comment.blogId) {
+                return (
+                    <div key={comment.id}>
+                        <Comment
+                            id={comment.id}
+                            blogId={comment.blogId}
+                            commentDate={comment.commentDate}
+                            author={comment.author}
+                            content={comment.content}
+                            likes={comment.likes}
+                        />
+                    </div>
+                )
+            }
+        })
     }
 
     render() {
@@ -133,7 +136,7 @@ export default class BlogPostTest extends PureComponent {
                               ref={this.nicknameTextField}
                         />
                         <Button raised onClick={this.comment}>Comment</Button>
-                        {<Comments postId={this.props.id}/>}
+                        {this.showComments()}
                         <Button raised onClick={this.deletePost}>Delete</Button>
                     </CardText>
                 </Card>
