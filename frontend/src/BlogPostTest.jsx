@@ -29,7 +29,7 @@ export default class BlogPostTest extends PureComponent {
             body: JSON.stringify(postedComment)
         }).then(response => response.json())
         .then(json => {
-            let newDataTable = this.props.data.slice();
+            let newDataTable = this.props.commentData.slice();
             newDataTable.push(json);
             this.props.updateCommentData(newDataTable);
         });
@@ -81,10 +81,11 @@ export default class BlogPostTest extends PureComponent {
             marginBottom: 5,
             maxWidth: 320,
         }
-        this.props.commentData.map((comment) => {
-            console.log(this.props.id + comment.blogId)
-            console.log(this.props.commentData)
-            if (this.props.id === comment.blogId) {
+
+        return (
+          <div>
+            {this.props.commentData.map((comment) => {
+              if (this.props.id === comment.blogId) {
                 return (
                     <div key={comment.id}>
                         <Comment
@@ -94,13 +95,16 @@ export default class BlogPostTest extends PureComponent {
                             author={comment.author}
                             content={comment.content}
                             likes={comment.likes}
-                            commentData={this.state.commentData}
-                            updateCommentData={this.updateCommentData}
+                            commentData={this.props.commentData}
+                            updateCommentData={this.props.updateCommentData}
                         />
                     </div>
-                )
-            }
-        })
+                );
+              }
+              return null;
+            })}
+          </div>
+        );
     }
 
     render() {
@@ -139,8 +143,8 @@ export default class BlogPostTest extends PureComponent {
                               ref={this.nicknameTextField}
                         />
                         <Button raised onClick={this.comment}>Comment</Button>
-                        {this.showComments()}
                         <Button raised onClick={this.deletePost}>Delete</Button>
+                        {this.showComments()}
                     </CardText>
                 </Card>
             </div>
