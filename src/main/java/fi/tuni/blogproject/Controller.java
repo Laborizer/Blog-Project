@@ -136,6 +136,11 @@ public class Controller {
         return comments;
     }
 
+    @GetMapping("/getAllComments")
+    public Iterable<Comment> getAllComments() {
+        return commentRepository.findAll();
+    }
+
     @RequestMapping(value="/likeComment", method= RequestMethod.POST)
     @ResponseBody
     public Optional<Comment> likeComment(@RequestBody Comment c) {

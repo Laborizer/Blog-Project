@@ -15,12 +15,34 @@ export default class BlogPostView extends PureComponent  {
 
     componentDidMount() {
         this.setState({loadingData: true});
+
         fetch('/getBlogItems')
             .then(response => response.json())
-            .then(data => this.setState({data: data}))
+            .then(json => this.setState({data: json}))
+        setTimeout(function(){
+            fetch('/getAllComments')
+                .then(response => response.json())
+                .then(json => this.setState({commentData: json, loadingData: false}))
+        }, 250);
+
+/*
         fetch('/getBlogItems')
-            .then(response => response.json())
-            .then(data => this.setState({commentData: data, loadingData: false}))
+        .then(function(response) {
+          return response.json()
+        })
+        .then(responseData => {
+          this.setState({data: responseData})
+          return fetch('/getAllComments')
+        })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(responseData => {
+          this.setState({commentData: responseData, loadingData: false})
+        })
+        .catch(function(error) {
+          console.log('Requestfailed', error)
+        }); */
     }
 
     updateData = (newData) => {

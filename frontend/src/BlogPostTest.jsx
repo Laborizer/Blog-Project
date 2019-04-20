@@ -83,6 +83,7 @@ export default class BlogPostTest extends PureComponent {
         }
         this.props.commentData.map((comment) => {
             console.log(this.props.id + comment.blogId)
+            console.log(this.props.commentData)
             if (this.props.id === comment.blogId) {
                 return (
                     <div key={comment.id}>
@@ -93,6 +94,8 @@ export default class BlogPostTest extends PureComponent {
                             author={comment.author}
                             content={comment.content}
                             likes={comment.likes}
+                            commentData={this.state.commentData}
+                            updateCommentData={this.updateCommentData}
                         />
                     </div>
                 )
