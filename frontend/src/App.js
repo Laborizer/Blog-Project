@@ -9,6 +9,7 @@ import './App.scss';
 import NewPostDialog from './NewPostDialog.jsx';
 import BlogPostTest from './BlogPostTest.jsx';
 import Search from './Search.jsx';
+import Login from './Login.jsx';
 
 const styles = {
   content: { minHeight: 'auto' },
@@ -20,6 +21,7 @@ class App extends Component {
         this.state = {
             data: [],
             commentData: [],
+            searchResults: [],
             loadingData: false
         }
 
@@ -66,8 +68,12 @@ class App extends Component {
         );
     }
 
+
+
     render() {
-        const style = {
+        const blogPostsStyle = {
+            marginLeft: 300,
+            marginRight: 300
         };
 
         const postButtonStyle = {
@@ -82,7 +88,6 @@ class App extends Component {
                     <Toolbar
                           colored
                           title="Blog-Pro"
-                          children={<Search/>}
                         />
                     <div>
                         <p>Loading...</p>
@@ -97,9 +102,9 @@ class App extends Component {
                     <Toolbar
                           colored
                           title="Blog-Pro"
-                          children={<Search/>}
+                          children={<Search data={this.state.data} />}
                         />
-                    <div>
+                    <div style={blogPostsStyle}>
                         {this.showData()}
                     </div>
                     <NewPostDialog

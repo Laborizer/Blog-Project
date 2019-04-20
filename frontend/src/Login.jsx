@@ -9,17 +9,15 @@ export default class Login extends PureComponent {
                     id="userNameField"
                     lineDirection="center"
                     placeholder={"Username"}
-                    resize={{min: 320, max: 500}}
-                    leftIcon={<FontIcon>search</FontIcon>}
-                    className="md-cell md-cell--bottom "
+                    resize={{min: 120, max: 180}}
+                    className="md-cell md-cell--right "
                 />
                 <TextField
                     id="passwordField"
                     lineDirection="center"
                     placeholder={"Password"}
-                    resize={{min: 320, max: 500}}
-                    leftIcon={<FontIcon>search</FontIcon>}
-                    className="md-cell md-cell--bottom "
+                    resize={{min: 120, max: 180}}
+                    className="md-cell md-cell--right "
                 />
             </div>
         );
