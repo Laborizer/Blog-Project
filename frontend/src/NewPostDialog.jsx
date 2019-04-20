@@ -1,4 +1,4 @@
-import {Button, DialogContainer, TextField} from "react-md";
+import {Button, DialogContainer, TextField, Autocomplete} from "react-md";
 import React, {PureComponent} from "react";
 
 export default class NewBlogPost extends PureComponent {
@@ -9,7 +9,10 @@ export default class NewBlogPost extends PureComponent {
         this.authorTextField = React.createRef();
         this.contentTextField = React.createRef();
 
-        this.state = {visible: false};
+        this.state = {
+            visible: false,
+            tags: []
+        };
     }
 
     show = () => {
@@ -60,6 +63,15 @@ export default class NewBlogPost extends PureComponent {
         });
     }
 
+    addTag = () => {
+    }
+
+    removeTag = (tag) => {
+        const addedTags = this.state.tags.slice();
+        addedTags.splice(addedTags.indexOf(tag), 1);
+        this.setNextState(addedTags);
+    }
+
     render() {
         const actions = [];
         actions.push(<Button flat secondary swapTheming onClick={this.hide}>Cancel</Button>);
@@ -94,6 +106,15 @@ export default class NewBlogPost extends PureComponent {
                         rows={5}
                         required={true}
                         ref={this.contentTextField}
+                    />
+                    <Autocomplete
+                      id="states-autocomplete"
+                      label="Select some states"
+                      dataLabel="name"
+                      dataValue="abbreviation"
+                      onAutocomplete={this.addState}
+                      clearOnAutocomplete
+                      deleteKeys="abbreviation"
                     />
                 </DialogContainer>
             </div>
