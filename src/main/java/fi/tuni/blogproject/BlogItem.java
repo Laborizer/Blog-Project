@@ -24,7 +24,7 @@ public class BlogItem {
     @Column(name = "title")
     String title;
 
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "TEXT")
     String content;
 
     public BlogItem(Date creationDate, String author, String title, String content) {

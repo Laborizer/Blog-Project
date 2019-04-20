@@ -24,13 +24,15 @@ public class BlogItemController {
 
     @DeleteMapping("/deleteBlogItem/{blogId}")
     @Transactional
-    public void deleteBlogItem(@PathVariable String blogId) {
+    public Optional<BlogItem> deleteBlogItem(@PathVariable String blogId) {
         for (Comment c : commentRepository.findAll()) {
             if (c.getBlogId().equals(blogId)) {
                 commentRepository.deleteById(c.getId());
             }
         }
+        Optional<BlogItem> bi = getBlogItem(blogId);
         blogItemRepository.deleteById(blogId);
+        return bi;
     }
 
     @GetMapping("/getBlogItems")

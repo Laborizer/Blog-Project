@@ -40,12 +40,13 @@ public class CommentController {
         return comments;
     }
 
-    @RequestMapping(value="/likeComment", method= RequestMethod.POST)
+    @RequestMapping(value="/likeComment/{commentId}", method= RequestMethod.POST)
     @ResponseBody
-    public Optional<Comment> likeComment(@RequestBody Comment c) {
+    public Optional<Comment> likeComment(@PathVariable String commentId) {
+        Comment c = commentRepository.findById(commentId).get();
         c.setLike(1);
         commentRepository.save(c);
 
-        return Optional.ofNullable(c);
+        return Optional.of(c);
     }
 }
