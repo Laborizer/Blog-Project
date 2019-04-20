@@ -5,9 +5,9 @@ import {
     Toolbar
 } from 'react-md';
 import './App.scss';
-import BlogPostView from './BlogPostView.jsx';
 
 import NewPostDialog from './NewPostDialog.jsx';
+import BlogPostTest from './BlogPostTest.jsx';
 import Search from './Search.jsx';
 
 const styles = {
@@ -15,9 +15,55 @@ const styles = {
 };
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: [],
+            commentData: [],
+            loadingData: false
+        }
 
-    addPost = () => {
-        console.log("addPost");
+    }
+
+    updateData = (newData) => {
+        this.setState({loadingData: true});
+        this.setState({data: newData, loadingData: false})
+    }
+
+    updateCommentData = (newData) => {
+        this.setState({commentData: newData})
+    }
+
+    componentDidMount() {
+        this.setState({loadingData: true});
+
+        fetch('/getBlogItems')
+            .then(response => response.json())
+            .then(json => this.setState({data: json}))
+        fetch('/getAllComments')
+            .then(response => response.json())
+            .then(json => this.setState({commentData: json, loadingData: false}))
+
+    }
+
+    showData = () => {
+        return (
+            this.state.data.map((item) =>
+                <div key={item.id}>
+                    <BlogPostTest
+                        id={item.id}
+                        title={item.title}
+                        author={item.author}
+                        content={item.content}
+                        creationDate={item.creationDate}
+                        data={this.state.data}
+                        commentData={this.state.commentData}
+                        updateData={this.updateData}
+                        updateCommentData={this.updateCommentData}
+                    />
+                </div>
+            )
+        );
     }
 
     render() {
@@ -30,16 +76,40 @@ class App extends Component {
             float: 'middle'
         };
 
-        return (
-            <div className="BlogApp">
-                <Toolbar
-                      colored
-                      title="Blog-Pro"
-                      children={<Search/>}
+        if (this.state.loadingData) {
+            return (
+                <div className="BlogApp">
+                    <Toolbar
+                          colored
+                          title="Blog-Pro"
+                          children={<Search/>}
+                        />
+                    <div>
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            );
+        }
+
+        if (!this.state.loadingData) {
+            return (
+                <div className="BlogApp">
+                    <Toolbar
+                          colored
+                          title="Blog-Pro"
+                          children={<Search/>}
+                        />
+                    <div>
+                        {this.showData()}
+                    </div>
+                    <NewPostDialog
+                        data={this.state.data}
+                        updateData={this.updateData}
                     />
-                {<BlogPostView/>}
-            </div>
-        );
+                </div>
+            );
+        }
+
     }
 }
 
