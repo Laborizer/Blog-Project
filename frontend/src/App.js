@@ -22,7 +22,8 @@ class App extends Component {
             data: [],
             commentData: [],
             searchResults: [],
-            loadingData: false
+            loadingData: false,
+            showSearch: false
         }
 
     }
@@ -48,9 +49,9 @@ class App extends Component {
 
     }
 
-    showData = () => {
+    showData = (givenData) => {
         return (
-            this.state.data.map((item) =>
+            givenData.map((item) =>
                 <div key={item.id}>
                     <BlogPostTest
                         id={item.id}
@@ -68,6 +69,27 @@ class App extends Component {
         );
     }
 
+    onAutocomplete = (hit) => {
+        let newDataTable = [];
+        for(let item of this.state.data) {
+            if (item.title === hit) {
+                newDataTable.push(item);
+            }
+        }
+        this.setState({
+            searchResults: newDataTable,
+            showSearch: true
+        })
+    }
+
+    onChange = (item) => {
+        if(item === '') {
+            this.setState({
+                searchResults: [],
+                showSearch: false
+            })
+        }
+    }
 
 
     render() {
@@ -96,16 +118,41 @@ class App extends Component {
             );
         }
 
-        if (!this.state.loadingData) {
+        if (!this.state.loadingData && this.state.showSearch) {
             return (
                 <div className="BlogApp">
                     <Toolbar
                           colored
                           title="Blog-Pro"
-                          children={<Search data={this.state.data} />}
+                          children={<Search
+                                        data={this.state.data}
+                                        onAutocomplete={this.onAutocomplete}
+                                        onChange={this.onChange}
+                          />}
                         />
                     <div style={blogPostsStyle}>
-                        {this.showData()}
+                        {this.showData(this.state.searchResults)}
+                    </div>
+                    <NewPostDialog
+                        data={this.state.data}
+                        updateData={this.updateData}
+                    />
+                </div>
+            );
+        } else if (!this.state.loadingData) {
+            return (
+                <div className="BlogApp">
+                    <Toolbar
+                          colored
+                          title="Blog-Pro"
+                          children={<Search
+                                        data={this.state.data}
+                                        onAutocomplete={this.onAutocomplete}
+                                        onChange={this.onChange}
+                          />}
+                        />
+                    <div style={blogPostsStyle}>
+                        {this.showData(this.state.data)}
                     </div>
                     <NewPostDialog
                         data={this.state.data}
