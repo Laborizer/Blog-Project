@@ -24,7 +24,12 @@ public class CommentController {
         return c;
     }
 
-    @GetMapping("getComments/{blogId}")
+    @GetMapping("/getAllComments")
+    public Iterable<Comment> getAllComments() {
+        return commentRepository.findAll();
+    }
+
+    @GetMapping("/getComments/{blogId}")
     public Iterable<Comment> getComments(@PathVariable String blogId) {
         ArrayList<Comment> comments = new ArrayList<>();
 
