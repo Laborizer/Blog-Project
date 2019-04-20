@@ -1,5 +1,11 @@
 package fi.tuni.blogproject;
 
-public interface CommentRepository extends MyCrudRepository<Comment, Long> {
-    public Iterable<Comment> findAll(Long aLong);
+
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.Optional;
+
+public interface CommentRepository extends CrudRepository<Comment, Long> {
+    Optional<Comment> findById(String commentId);
+    void deleteById(String commentId);
 }

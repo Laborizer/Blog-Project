@@ -1,32 +1,44 @@
 package fi.tuni.blogproject;
 
-import java.text.SimpleDateFormat;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name ="blogs")
 public class BlogItem {
-    long id;
+    @Id
+    @GeneratedValue(generator = IDGenerator.GENERATOR_NAME)
+    @GenericGenerator(
+            name = IDGenerator.GENERATOR_NAME,
+            strategy = "fi.tuni.blogproject.IDGenerator")
+    private String id;
+
+    @Column(name = "creationdate")
     Date creationDate;
+
+    @Column(name = "author")
     String author;
+
+    @Column(name = "title")
     String title;
+
+    @Column(name = "content")
     String content;
 
-    public BlogItem(long id, Date creationDate, String author, String title, String content) {
+    public BlogItem(Date creationDate, String author, String title, String content) {
         this.creationDate = creationDate;
         this.author = author;
         this.title = title;
         this.content = content;
-        setId(id);
     }
 
     public BlogItem() {
     }
 
-    public long getId() {
+    public String getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id+1;
     }
 
     public Date getCreationDate() {
