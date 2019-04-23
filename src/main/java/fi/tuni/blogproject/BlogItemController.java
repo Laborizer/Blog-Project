@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 
 /**
@@ -72,7 +74,10 @@ public class BlogItemController {
      */
     @GetMapping("/getBlogItems")
     public Iterable<BlogItem> getBlogItems() {
-        return blogItemRepository.findAll();
+        ArrayList<BlogItem> blogItems = (ArrayList<BlogItem>) blogItemRepository.findAll();
+
+        Collections.sort(blogItems);
+        return blogItems;
     }
 
     /**

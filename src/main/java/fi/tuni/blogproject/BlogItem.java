@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name ="blogs")
-public class BlogItem {
+public class BlogItem implements Comparable<BlogItem> {
     @Id
     @GeneratedValue(generator = IDGenerator.GENERATOR_NAME)
     @GenericGenerator(
@@ -134,5 +134,10 @@ public class BlogItem {
      */
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public int compareTo(BlogItem o) {
+        return o.getCreationDate().compareTo(getCreationDate());
     }
 }
