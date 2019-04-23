@@ -16,6 +16,9 @@ public class CommentController {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    BlogItemRepository blogItemRepository;
+
     /**
      * Adds a new Comment to database.
      *
@@ -24,13 +27,14 @@ public class CommentController {
      */
     @RequestMapping(value="/addComment", method= RequestMethod.POST)
     @ResponseBody
-    public Comment addComment(@RequestBody Comment c) {
-        c.setLike(0);
-        c.setCommentDate(new Date());
-
-        commentRepository.save(c);
-
-        return c;
+    public Optional<Comment> addComment(@RequestBody Comment c) {
+        if (blogItemRepository.findById(c.getBlogId()).isPresent()) {
+            c.setLike(0);
+            c.setCommentDate(new Date());
+            commentRepository.save(c);
+            return Optional.of(c);
+        }
+        return null;
     }
 
     /**
