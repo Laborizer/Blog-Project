@@ -34,14 +34,15 @@ public class TagController {
         for (Tag t : tags) {
             if (blogItemRepository.findById(t.getBlogId()).isPresent()) {
                 for (Tag ta : tagRepository.findAll()) {
-                    tag1 = ta.getTagName().replaceAll("[^A-Za-z]+", "").toUpperCase();
-                    tag2 = t.getTagName().replaceAll("[^A-Za-z]+", "").toUpperCase();
+                    tag1 = ta.getTagName().replaceAll("[^A-Za-z]+", "").toLowerCase();
+                    tag2 = t.getTagName().replaceAll("[^A-Za-z]+", "").toLowerCase();
 
                     if (tag1.equals(tag2) && ta.getBlogId().equals(t.getBlogId())) {
                         duplicateTag = true;
                     }
                 }
                 if (!duplicateTag) {
+                    t.setTagName(t.getTagName().replaceAll("[^A-Za-z]+", "").toLowerCase());
                     tagRepository.save(t);
                 }
             }
