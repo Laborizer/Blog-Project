@@ -10,6 +10,7 @@ export default class BlogPostTest extends PureComponent {
 
         this.commentTextField = React.createRef();
         this.nicknameTextField = React.createRef();
+        console.log(this.props.tagData)
 
     }
 
@@ -107,6 +108,23 @@ export default class BlogPostTest extends PureComponent {
         );
     }
 
+    showTags() {
+        console.log("ShowTags")
+        return (
+            this.props.tagData.map((tag) => {
+                if (tag.blogId === this.props.id) {
+                    console.log("match " + this.props.id)
+                    console.log(tag.tagName)
+                    return (
+                        <p className="md-cell">{tag.tagName}</p>
+                    )
+                }
+
+                return null;
+            })
+        )
+    }
+
     render() {
         const style = {
             margin: 50,
@@ -121,6 +139,8 @@ export default class BlogPostTest extends PureComponent {
                     />
                     <CardText>
                         <p>{this.props.content}</p>
+                        <p>Tags:</p>
+                        <div className="md-grid">{this.showTags()}</div>
 
                     </CardText>
                     <CardActions expander>
