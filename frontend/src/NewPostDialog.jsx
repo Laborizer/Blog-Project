@@ -49,6 +49,7 @@ export default class NewBlogPost extends PureComponent {
         }
         let blogItem = {};
         console.log(newPost)
+        console.log(this.props.tagData)
 
         fetch('./addBlogItem', {
             method: "POST",
@@ -69,14 +70,13 @@ export default class NewBlogPost extends PureComponent {
     postTags = (blogItem) => {
         this.hide();
         let tagArray = []
-        console.log(tagArray)
         for (let i=0; i<this.state.tags.length;i++) {
             let tagObject = {};
             tagObject.blogId = blogItem.id;
             tagObject.tagName = this.state.tags[i].tagName
             tagArray.push(tagObject)
-            console.log(this.state.tags[i])
         }
+        console.log(tagArray)
         fetch('./addTags', {
             method: "POST",
             headers: {
@@ -85,13 +85,9 @@ export default class NewBlogPost extends PureComponent {
             body: JSON.stringify(tagArray)
         }).then(response => response.json())
         .then(json => {
-            let newDataTable = [];
-            for (let i=0;i<json.length;i++) {
-                let newTag = {}
-                newTag.id = json[i].id;
-                newTag.blogId = json[i].blogId;
-                newTag.tagName = json[i].tagName;
-                newDataTable.push(newTag);
+            let newDataTable = this.props.tagData.slice();
+            for (let i=0; i<json.length; i++) {
+                newDataTable.push(json[i]);
             }
             this.props.updateTagData(newDataTable);
             this.setState({tags: []});

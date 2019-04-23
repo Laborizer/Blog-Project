@@ -51,7 +51,10 @@ class App extends Component {
             .then(json => this.setState({data: json}))
         fetch('/getAllComments')
             .then(response => response.json())
-            .then(json => this.setState({commentData: json, loadingData: false}))
+            .then(json => this.setState({commentData: json}))
+        fetch('/getAllTags')
+            .then(response => response.json())
+            .then(json => this.setState({tagData: json, loadingData: false}))
 
     }
 
@@ -134,6 +137,7 @@ class App extends Component {
                           title="Blog-Pro"
                           children={<Search
                                         data={this.state.data}
+                                        tagData={this.state.tagData}
                                         onAutocomplete={this.onAutocomplete}
                                         onChange={this.onChange}
                           />}
@@ -157,6 +161,7 @@ class App extends Component {
                           title="Blog-Pro"
                           children={<Search
                                         data={this.state.data}
+                                        tagData={this.state.tagData}
                                         onAutocomplete={this.onAutocomplete}
                                         onChange={this.onChange}
                           />}
