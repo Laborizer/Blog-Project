@@ -40,7 +40,7 @@ class App extends Component {
 
     updateTagData = (newData) => {
         this.setState({tagData: newData})
-        console.log(newData);
+        console.log(this.state.tagData);
     }
 
     componentDidMount() {

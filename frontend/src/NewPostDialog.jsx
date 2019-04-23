@@ -68,9 +68,14 @@ export default class NewBlogPost extends PureComponent {
 
     postTags = (blogItem) => {
         this.hide();
-        let tagArray = this.state.tags
-        for (let i=0; i<tagArray.length;i++) {
-            tagArray[i].blogId = blogItem.id;
+        let tagArray = []
+        console.log(tagArray)
+        for (let i=0; i<this.state.tags.length;i++) {
+            let tagObject = {};
+            tagObject.blogId = blogItem.id;
+            tagObject.tagName = this.state.tags[i].tagName
+            tagArray.push(tagObject)
+            console.log(this.state.tags[i])
         }
         fetch('./addTags', {
             method: "POST",
@@ -78,10 +83,16 @@ export default class NewBlogPost extends PureComponent {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(tagArray)
-        }).then(json => {
-            let newDataTable = this.props.tagData.slice();
-            newDataTable.push(json);
-            console.log(json)
+        }).then(response => response.json())
+        .then(json => {
+            let newDataTable = [];
+            for (let i=0;i<json.length;i++) {
+                let newTag = {}
+                newTag.id = json[i].id;
+                newTag.blogId = json[i].blogId;
+                newTag.tagName = json[i].tagName;
+                newDataTable.push(newTag);
+            }
             this.props.updateTagData(newDataTable);
             this.setState({tags: []});
         });
@@ -90,11 +101,10 @@ export default class NewBlogPost extends PureComponent {
     addTag = () => {
         const addedTags = this.state.tags.slice();
         let tag = {
-            id: this.state.tags.length,
             tagName: "#" + this.tagsTextField.current.value
         }
         addedTags.push(tag);
-        this.props.updateTagData(addedTags);
+        //this.props.updateTagData(addedTags);
         this.setState({tags: addedTags})
         console.log("Added tag");
     }
@@ -102,7 +112,7 @@ export default class NewBlogPost extends PureComponent {
     removeTag = (tag) => {
         const addedTags = this.state.tags.slice();
         for( var i = 0; i < addedTags.length; i++){
-            if (addedTags[i].id === tag.id) {
+            if (addedTags[i].tagName === tag.tagName) {
                 addedTags.splice(i, 1);
             }
         }
