@@ -34,6 +34,11 @@ public class BlogItemController {
     /**
      * Deletes a BlogItem from the database.
      *
+     * <p>
+     *     Before the BlogItem is deleted, first deletes all the Comments
+     *     for this BlogItem if there are any.
+     * </p>
+     *
      * @param blogId Id of the BlogItem to be deleted.
      * @return Deleted BlogItem.
      */
