@@ -23,6 +23,9 @@ public class BlogprojectApplication implements CommandLineRunner {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    TagRepository tagRepository;
+
     /**
      * Main method.
      *
@@ -78,5 +81,10 @@ public class BlogprojectApplication implements CommandLineRunner {
                         " aliquip ex ea commodo consequat.", 0);
         commentRepository.save(c1);
         commentRepository.save(c2);
+
+        Tag t1 = new Tag("testtag", b1.getId());
+        Tag t2 = new Tag("funny", b2.getId());
+        tagRepository.save(t1);
+        tagRepository.save(t2);
     }
 }
