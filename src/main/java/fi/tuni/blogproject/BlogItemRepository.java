@@ -4,6 +4,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
+/**
+ * Repository interface for BlogItem getting and deletion in the database.
+ */
 public interface BlogItemRepository extends CrudRepository<BlogItem, Long> {
     Optional<BlogItem> findById(String blogId);
     void deleteById(String blogId);
