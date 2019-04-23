@@ -3,6 +3,8 @@ package fi.tuni.blogproject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 /**
  * Rest Controller for modifying Tags in the database.
  */
@@ -26,7 +28,8 @@ public class TagController {
      * @return Added Tags.
      */
     @RequestMapping(value="/addTags", method = RequestMethod.POST)
-    public Tag[] addTags(@RequestBody Tag[] tags){
+    public ArrayList<Tag> addTags(@RequestBody Tag[] tags){
+        ArrayList<Tag> returnableTags = new ArrayList<>();
         boolean duplicateTag = false;
         String tag1 = "";
         String tag2 = "";
@@ -44,11 +47,12 @@ public class TagController {
                 if (!duplicateTag) {
                     t.setTagName(t.getTagName().replaceAll("[^A-Za-z]+", "").toLowerCase());
                     tagRepository.save(t);
+                    returnableTags.add(t);
                 }
             }
             duplicateTag = false;
         }
-        return tags;
+        return returnableTags;
     }
 
     /**

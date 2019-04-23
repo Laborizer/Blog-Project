@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 
 /**
@@ -16,6 +18,9 @@ public class BlogItemController {
 
     @Autowired
     CommentRepository commentRepository;
+
+    @Autowired
+    TagRepository tagRepository;
 
     /**
      * Adds a new BlogItem to database.
@@ -35,8 +40,8 @@ public class BlogItemController {
      * Deletes a BlogItem from the database.
      *
      * <p>
-     *     Before the BlogItem is deleted, first deletes all the Comments
-     *     for this BlogItem if there are any.
+     *     Before the BlogItem is deleted, first deletes all the Comments and
+     *     tags, this this BlogItem has, if there are any.
      * </p>
      *
      * @param blogId Id of the BlogItem to be deleted.
@@ -45,24 +50,39 @@ public class BlogItemController {
     @DeleteMapping("/deleteBlogItem/{blogId}")
     @Transactional
     public Optional<BlogItem> deleteBlogItem(@PathVariable String blogId) {
-        for (Comment c : commentRepository.findAll()) {
-            if (c.getBlogId().equals(blogId)) {
-                commentRepository.deleteById(c.getId());
-            }
-        }
         Optional<BlogItem> bi = getBlogItem(blogId);
-        blogItemRepository.deleteById(blogId);
+        if (blogItemRepository.findById(blogId).isPresent()) {
+            for (Comment c : commentRepository.findAll()) {
+                if (c.getBlogId().equals(blogId)) {
+                    commentRepository.deleteById(c.getId());
+                }
+            }
+            for (Tag t : tagRepository.findAll()) {
+                if (t.getBlogId().equals(blogId)) {
+                    tagRepository.deleteById(t.getId());
+                }
+            }
+            blogItemRepository.deleteById(blogId);
+        }
         return bi;
     }
 
     /**
      * Gets all of the BlogItems in the database.
      *
+     * <p>
+     *     Makes an ArrayList of all BlogItems and sorts them by date using
+     *     BlogItems compareTo -method.
+     * </p>
+     *
      * @return All BlogItems.
      */
     @GetMapping("/getBlogItems")
     public Iterable<BlogItem> getBlogItems() {
-        return blogItemRepository.findAll();
+        ArrayList<BlogItem> blogItems = (ArrayList<BlogItem>) blogItemRepository.findAll();
+
+        Collections.sort(blogItems);
+        return blogItems;
     }
 
     /**

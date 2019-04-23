@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
@@ -15,6 +16,9 @@ public class CommentController {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    BlogItemRepository blogItemRepository;
+
     /**
      * Adds a new Comment to database.
      *
@@ -23,23 +27,32 @@ public class CommentController {
      */
     @RequestMapping(value="/addComment", method= RequestMethod.POST)
     @ResponseBody
-    public Comment addComment(@RequestBody Comment c) {
-        c.setLike(0);
-        c.setCommentDate(new Date());
-
-        commentRepository.save(c);
-
-        return c;
+    public Optional<Comment> addComment(@RequestBody Comment c) {
+        if (blogItemRepository.findById(c.getBlogId()).isPresent()) {
+            c.setLike(0);
+            c.setCommentDate(new Date());
+            commentRepository.save(c);
+            return Optional.of(c);
+        }
+        return null;
     }
 
     /**
      * Gets all Comments from the database.
      *
+     * <p>
+     *     Makes an ArrayList of all Comments and sorts them by date using
+     *     Comments compareTo -method.
+     * </p>
+     *
      * @return All Comments from the database.
      */
     @GetMapping("/getAllComments")
     public Iterable<Comment> getAllComments() {
-        return commentRepository.findAll();
+        ArrayList<Comment> comments = (ArrayList<Comment>) commentRepository.findAll();
+
+        Collections.sort(comments);
+        return comments;
     }
 
     /**

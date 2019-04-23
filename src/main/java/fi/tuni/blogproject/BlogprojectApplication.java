@@ -20,6 +20,9 @@ public class BlogprojectApplication implements CommandLineRunner {
     @Autowired
     BlogItemRepository blogItemRepository;
 
+    @Autowired
+    CommentRepository commentRepository;
+
     /**
      * Main method.
      *
@@ -38,7 +41,7 @@ public class BlogprojectApplication implements CommandLineRunner {
      */
 	@Override
 	public void run(String... args) throws IOException {
-	    createBlogPosts();
+	    createBlogPostsAndComments();
 
 	    for(CurlCommand cc : getCurlCommands()) {
 	        System.out.println("\nFunction: " + cc.getName());
@@ -61,11 +64,15 @@ public class BlogprojectApplication implements CommandLineRunner {
     /**
      * Creates sample data to database.
      */
-    public void createBlogPosts() {
+    public void createBlogPostsAndComments() {
 	    BlogItem b1 = new BlogItem(new Date(), "Tester", "Test", "Sample text");
-        BlogItem b2 = new BlogItem(new Date(), "Jester", "Test 2", "Such wow");
-
+        BlogItem b2 = new BlogItem(new Date(), "Jester", "Test 2", "Temple saxt");
         blogItemRepository.save(b1);
         blogItemRepository.save(b2);
+
+        Comment c1 = new Comment(b1.getId(), new Date(), "Commenter", "Nice post!", 0);
+        Comment c2 = new Comment(b2.getId(), new Date(), "Internet Dude", "Such wow!", 0);
+        commentRepository.save(c1);
+        commentRepository.save(c2);
     }
 }
