@@ -33,8 +33,8 @@ public class BlogprojectApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws IOException {
 	    for(CurlCommand cc : getCurlCommands()) {
-	        System.out.println("Function: " + cc.getName());
-	        System.out.println("Command: " + cc.getCommand() + "\n");
+	        System.out.println("\nFunction: " + cc.getName());
+	        System.out.println("Command: " + cc.getCommand());
         }
 	}
 

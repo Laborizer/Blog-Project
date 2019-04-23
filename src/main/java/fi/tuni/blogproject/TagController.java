@@ -49,4 +49,14 @@ public class TagController {
         }
         return tags;
     }
+
+    /**
+     * Gets all Tags from the database.
+     *
+     * @return All Tags from the database.
+     */
+    @GetMapping("/getAllTags")
+    public Iterable<Tag> getAllComments() {
+        return tagRepository.findAll();
+    }
 }

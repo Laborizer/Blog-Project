@@ -34,5 +34,9 @@
   {
     "name":"Add tags to blog post",
     "command":"curl -X POST -H \"Content-Type:application/json\" --data \"[{\"\"\"tagName\"\"\":\"\"\"funny\"\"\", \"\"\"blogId\"\"\":\"\"\"(blog ID here)\"\"\"},{\"\"\"tagName\"\"\":\"\"\"joke\"\"\", \"\"\"blogId\"\"\":\"\"\"(blog ID here)\"\"\"}]\" http://localhost:8080/addTags"
+  },
+  {
+    "name":"Get all tags",
+    "command":"curl -X GET http://localhost:8080/getAllTags"
   }
 ]
