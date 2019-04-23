@@ -22,6 +22,7 @@ class App extends Component {
             data: [],
             commentData: [],
             searchResults: [],
+            tagData: [],
             loadingData: false,
             showSearch: false
         }
@@ -35,6 +36,11 @@ class App extends Component {
 
     updateCommentData = (newData) => {
         this.setState({commentData: newData})
+    }
+
+    updateTagData = (newData) => {
+        this.setState({tagData: newData})
+        console.log(newData);
     }
 
     componentDidMount() {
@@ -61,8 +67,10 @@ class App extends Component {
                         creationDate={item.creationDate}
                         data={this.state.data}
                         commentData={this.state.commentData}
+                        tagData={this.state.tagData}
                         updateData={this.updateData}
                         updateCommentData={this.updateCommentData}
+                        updateTagData={this.updateTagData}
                     />
                 </div>
             )
@@ -135,7 +143,9 @@ class App extends Component {
                     </div>
                     <NewPostDialog
                         data={this.state.data}
+                        tagData={this.state.tagData}
                         updateData={this.updateData}
+                        updateTagData={this.updateTagData}
                     />
                 </div>
             );
@@ -156,7 +166,9 @@ class App extends Component {
                     </div>
                     <NewPostDialog
                         data={this.state.data}
+                        tagData={this.state.tagData}
                         updateData={this.updateData}
+                        updateTagData={this.updateTagData}
                     />
                 </div>
             );

@@ -1,4 +1,4 @@
-import {Card, CardText, CardTitle, CardActions, Button, TextField} from "react-md";
+import {Card, CardText, CardTitle, CardActions, Button, TextField, Chip} from "react-md";
 import React, {PureComponent} from "react";
 import Comment from './Comment.jsx';
 

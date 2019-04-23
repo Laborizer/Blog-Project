@@ -1,4 +1,4 @@
-import {Button, DialogContainer, TextField, Autocomplete} from "react-md";
+import {Button, DialogContainer, TextField, Autocomplete, Chip} from "react-md";
 import React, {PureComponent} from "react";
 
 export default class NewBlogPost extends PureComponent {
@@ -8,6 +8,7 @@ export default class NewBlogPost extends PureComponent {
         this.titleTextField = React.createRef();
         this.authorTextField = React.createRef();
         this.contentTextField = React.createRef();
+        this.tagsTextField = React.createRef();
 
         this.state = {
             visible: false,
@@ -40,13 +41,13 @@ export default class NewBlogPost extends PureComponent {
     } */
 
     postIt = () => {
-        this.hide();
         let newPost = {
             "title": this.titleTextField.current.value,
             "author": this.authorTextField.current.value,
             "content": this.contentTextField.current.value,
             "creationDate": new Date().getTime()
         }
+        let blogItem = {};
         console.log(newPost)
 
         fetch('./addBlogItem', {
@@ -58,24 +59,67 @@ export default class NewBlogPost extends PureComponent {
         }).then(response => response.json())
         .then(json => {
             let newDataTable = this.props.data.slice();
+            blogItem = json;
             newDataTable.push(json);
             this.props.updateData(newDataTable);
+            this.postTags(blogItem);
+        });
+    }
+
+    postTags = (blogItem) => {
+        this.hide();
+        let tagArray = this.state.tags
+        for (let i=0; i<tagArray.length;i++) {
+            tagArray[i].blogId = blogItem.id;
+        }
+        fetch('./addTags', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(tagArray)
+        }).then(json => {
+            let newDataTable = this.props.tagData.slice();
+            newDataTable.push(json);
+            console.log(json)
+            this.props.updateTagData(newDataTable);
+            this.setState({tags: []});
         });
     }
 
     addTag = () => {
+        const addedTags = this.state.tags.slice();
+        let tag = {
+            id: this.state.tags.length,
+            tagName: "#" + this.tagsTextField.current.value
+        }
+        addedTags.push(tag);
+        this.props.updateTagData(addedTags);
+        this.setState({tags: addedTags})
+        console.log("Added tag");
     }
 
     removeTag = (tag) => {
         const addedTags = this.state.tags.slice();
-        addedTags.splice(addedTags.indexOf(tag), 1);
-        this.setNextState(addedTags);
+        for( var i = 0; i < addedTags.length; i++){
+            if (addedTags[i].id === tag.id) {
+                addedTags.splice(i, 1);
+            }
+        }
+        this.setState({tags: addedTags});
     }
 
     render() {
         const actions = [];
         actions.push(<Button flat secondary swapTheming onClick={this.hide}>Cancel</Button>);
         actions.push(<Button flat primary swapTheming onClick={this.postIt}>Send</Button>);
+
+        const chips = this.state.tags.map(tag =>
+            <Chip key={tag.id}
+                  label={tag.tagName}
+                  removable
+                  onClick={()=>this.removeTag(tag)}
+            />);
 
         return (
             <div>
@@ -107,15 +151,15 @@ export default class NewBlogPost extends PureComponent {
                         required={true}
                         ref={this.contentTextField}
                     />
-                    <Autocomplete
-                      id="states-autocomplete"
-                      label="Select some states"
-                      dataLabel="name"
-                      dataValue="abbreviation"
-                      onAutocomplete={this.addState}
-                      clearOnAutocomplete
-                      deleteKeys="abbreviation"
+                    {chips}
+                    <TextField
+                        className = "md-cell"
+                        id="tagsField"
+                        label="Tags"
+                        ref={this.tagsTextField}
                     />
+
+                <Button flat primary swapTheming className="md-cell" onClick={this.addTag}>Add Tag</Button>
                 </DialogContainer>
             </div>
         );
