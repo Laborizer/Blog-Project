@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "comments")
-public class Comment {
+public class Comment implements Comparable<Comment> {
     @Id
     @GeneratedValue(generator = IDGenerator.GENERATOR_NAME)
     @GenericGenerator(
@@ -156,5 +156,10 @@ public class Comment {
      */
     public void setLike(int like) {
         this.likes = this.likes + like;
+    }
+
+    @Override
+    public int compareTo(Comment o) {
+        return o.getCommentDate().compareTo(getCommentDate());
     }
 }

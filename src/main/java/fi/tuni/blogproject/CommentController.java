@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
@@ -35,11 +36,19 @@ public class CommentController {
     /**
      * Gets all Comments from the database.
      *
+     * <p>
+     *     Makes an ArrayList of all Comments and sorts them by date using
+     *     Comments compareTo -method.
+     * </p>
+     *
      * @return All Comments from the database.
      */
     @GetMapping("/getAllComments")
     public Iterable<Comment> getAllComments() {
-        return commentRepository.findAll();
+        ArrayList<Comment> comments = (ArrayList<Comment>) commentRepository.findAll();
+
+        Collections.sort(comments);
+        return comments;
     }
 
     /**

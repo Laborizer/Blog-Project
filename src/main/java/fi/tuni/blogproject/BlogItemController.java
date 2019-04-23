@@ -70,6 +70,11 @@ public class BlogItemController {
     /**
      * Gets all of the BlogItems in the database.
      *
+     * <p>
+     *     Makes an ArrayList of all BlogItems and sorts them by date using
+     *     BlogItems compareTo -method.
+     * </p>
+     *
      * @return All BlogItems.
      */
     @GetMapping("/getBlogItems")
