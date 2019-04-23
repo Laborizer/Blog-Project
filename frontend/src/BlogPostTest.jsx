@@ -1,6 +1,6 @@
-import {Card, CardText, CardTitle, CardActions, Button, TextField} from "react-md";
+import {Card, CardText, CardTitle, CardActions, Button, TextField, Chip} from "react-md";
 import React, {PureComponent} from "react";
-import Comments from './Comments.js';
+import Comment from './Comment.jsx';
 
 import './App.scss';
 
@@ -27,13 +27,15 @@ export default class BlogPostTest extends PureComponent {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(postedComment)
-        }).then(response => response.json()).then(json => console.log(json));
-        setTimeout(function(){
-            window.location.reload()
-        }, 250);
+        }).then(response => response.json())
+        .then(json => {
+            let newDataTable = this.props.commentData.slice();
+            newDataTable.push(json);
+            this.props.updateCommentData(newDataTable);
+        });
     }
 
-    delete = () => {
+    deletePost = () =>{
         let url = "./deleteBlogItem/" + this.props.id;
         let deletedPost = {
             "id": this.props.id,
@@ -50,9 +52,13 @@ export default class BlogPostTest extends PureComponent {
             },
             body: JSON.stringify(deletedPost)
         }).then(response => response.json()).then(json => console.log(json));
-        setTimeout(function(){
-            window.location.reload()
-        }, 250);
+        let newDataTable = this.props.data.slice();
+        for( var i = 0; i < newDataTable.length; i++){
+           if (newDataTable[i].id === this.props.id) {
+             newDataTable.splice(i, 1);
+           }
+        }
+        this.props.updateData(newDataTable);
     }
 
     makeDate = () => {
@@ -67,6 +73,38 @@ export default class BlogPostTest extends PureComponent {
         return (
             dateString
         )
+    }
+
+    showComments = () => {
+        const style = {
+            marginTop: 5,
+            marginBottom: 5,
+            maxWidth: 320,
+        }
+
+        return (
+          <div>
+            {this.props.commentData.map((comment) => {
+              if (this.props.id === comment.blogId) {
+                return (
+                    <div key={comment.id}>
+                        <Comment
+                            id={comment.id}
+                            blogId={comment.blogId}
+                            commentDate={comment.commentDate}
+                            author={comment.author}
+                            content={comment.content}
+                            likes={comment.likes}
+                            commentData={this.props.commentData}
+                            updateCommentData={this.props.updateCommentData}
+                        />
+                    </div>
+                );
+              }
+              return null;
+            })}
+          </div>
+        );
     }
 
     render() {
@@ -105,8 +143,8 @@ export default class BlogPostTest extends PureComponent {
                               ref={this.nicknameTextField}
                         />
                         <Button raised onClick={this.comment}>Comment</Button>
-                        {<Comments postId={this.props.id}/>}
-                        <Button raised onClick={this.delete}>Delete</Button>
+                        <Button raised onClick={this.deletePost}>Delete</Button>
+                        {this.showComments()}
                     </CardText>
                 </Card>
             </div>
