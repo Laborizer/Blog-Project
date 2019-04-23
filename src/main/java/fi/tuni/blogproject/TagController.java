@@ -61,7 +61,7 @@ public class TagController {
      * @return All Tags from the database.
      */
     @GetMapping("/getAllTags")
-    public Iterable<Tag> getAllComments() {
+    public Iterable<Tag> getAllTags() {
         return tagRepository.findAll();
     }
 }
