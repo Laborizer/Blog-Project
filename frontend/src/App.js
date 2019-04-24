@@ -197,15 +197,16 @@ class App extends Component {
                                         onChange={this.onChange}
                           />}
                         />
+                        <NewPostDialog
+            data={this.state.data}
+            tagData={this.state.tagData}
+            updateData={this.updateData}
+            updateTagData={this.updateTagData}
+            />
                     <div style={blogPostsStyle}>
                         {this.showData(this.state.searchResults)}
                     </div>
-                    <NewPostDialog
-                        data={this.state.data}
-                        tagData={this.state.tagData}
-                        updateData={this.updateData}
-                        updateTagData={this.updateTagData}
-                    />
+
                 </div>
             );
         } else if (!this.state.loadingData) {
@@ -221,15 +222,16 @@ class App extends Component {
                                         onChange={this.onChange}
                           />}
                         />
+                        <NewPostDialog
+            data={this.state.data}
+            tagData={this.state.tagData}
+            updateData={this.updateData}
+            updateTagData={this.updateTagData}
+            />
                     <div style={blogPostsStyle}>
                         {this.showData(this.state.data)}
                     </div>
-                    <NewPostDialog
-                        data={this.state.data}
-                        tagData={this.state.tagData}
-                        updateData={this.updateData}
-                        updateTagData={this.updateTagData}
-                    />
+
                 </div>
             );
         }

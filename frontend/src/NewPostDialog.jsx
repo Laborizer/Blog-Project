@@ -22,7 +22,7 @@ export default class NewBlogPost extends PureComponent {
     }
 
     hide = () => {
-        this.setState({visible: false});
+        this.setState({visible: false, tags: []});
     }
 
 /*
@@ -129,7 +129,7 @@ export default class NewBlogPost extends PureComponent {
 
         return (
             <div>
-                <Button floating primary onClick={this.show}>add</Button>
+                <Button raised secondary onClick={this.show}>New Post</Button>
                 <DialogContainer
                     id="new-post"
                     visible={this.state.visible}
