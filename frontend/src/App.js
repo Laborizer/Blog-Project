@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import {
-    Button,
-    Toolbar
-} from 'react-md';
+import {Toolbar} from 'react-md';
 import './App.scss';
 
 import NewPostDialog from './NewPostDialog.jsx';
 import BlogPostTest from './BlogPostTest.jsx';
 import Search from './Search.jsx';
-import Login from './Login.jsx';
-
-const styles = {
-  content: { minHeight: 'auto' },
-};
 
 /**
  * Blog-Pro is a simple blogging application. It allows users to create blog posts with tags as well as browse, search
@@ -78,7 +69,6 @@ class App extends Component {
      */
     componentDidMount() {
         this.setState({loadingData: true});
-
         fetch('/getBlogItems')
             .then(response => response.json())
             .then(json => this.setState({data: json}))
@@ -94,7 +84,7 @@ class App extends Component {
     showData = (givenData) => {
         return (
             givenData.map((item) =>
-                    <BlogPostTest
+                    <BlogPostTest key={item.id}
                         id={item.id}
                         title={item.title}
                         author={item.author}
@@ -158,12 +148,6 @@ class App extends Component {
         const blogPostsStyle = {
             marginLeft: 5,
             marginRight: 5
-        };
-
-        const postButtonStyle = {
-            margin: 10,
-            minWidth: 320,
-            float: 'middle'
         };
 
         if (this.state.loadingData) {

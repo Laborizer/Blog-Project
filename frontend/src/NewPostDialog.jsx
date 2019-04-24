@@ -1,4 +1,4 @@
-import {Button, DialogContainer, TextField, Autocomplete, Chip} from "react-md";
+import {Button, DialogContainer, TextField, Chip} from "react-md";
 import React, {PureComponent} from "react";
 
 export default class NewBlogPost extends PureComponent {
@@ -18,7 +18,6 @@ export default class NewBlogPost extends PureComponent {
 
     show = () => {
         this.setState({visible: true});
-        console.log("NewPostDialog: show()");
     }
 
     hide = () => {
@@ -33,8 +32,6 @@ export default class NewBlogPost extends PureComponent {
             "creationDate": new Date().getTime()
         }
         let blogItem = {};
-        console.log(newPost)
-        console.log(this.props.tagData)
 
         fetch('./addBlogItem', {
             method: "POST",
@@ -61,7 +58,6 @@ export default class NewBlogPost extends PureComponent {
             tagObject.tagName = this.state.tags[i].tagName
             tagArray.push(tagObject)
         }
-        console.log(tagArray)
         fetch('./addTags', {
             method: "POST",
             headers: {
@@ -85,7 +81,6 @@ export default class NewBlogPost extends PureComponent {
             tagName: "#" + this.tagsTextField.current.value
         }
         addedTags.push(tag);
-        //this.props.updateTagData(addedTags);
         this.setState({tags: addedTags})
         console.log("Added tag");
     }
@@ -111,12 +106,6 @@ export default class NewBlogPost extends PureComponent {
                   removable
                   onClick={()=>this.removeTag(tag)}
             />);
-
-        const postButtonStyle = {
-            margin: 10,
-            width: 300,
-            float: 'middle'
-        };
 
         return (
             <div>
