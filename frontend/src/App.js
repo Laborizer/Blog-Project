@@ -91,6 +91,8 @@ class App extends Component {
 
     }
 
+    showEditDialog
+
     showData = (givenData) => {
         return (
             givenData.map((item) =>

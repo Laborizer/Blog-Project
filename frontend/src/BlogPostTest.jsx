@@ -1,4 +1,4 @@
-import {Card, CardText, CardTitle, CardActions, Button, TextField, Chip} from "react-md";
+import {Card, CardText, CardTitle, CardActions, Button, TextField, Chip, DialogContainer} from "react-md";
 import React, {PureComponent} from "react";
 import Comment from './Comment.jsx';
 
@@ -10,8 +10,81 @@ export default class BlogPostTest extends PureComponent {
 
         this.commentTextField = React.createRef();
         this.nicknameTextField = React.createRef();
+        this.titleTextField = React.createRef();
+        this.contentTextField = React.createRef();
         console.log(this.props.tagData)
 
+        this.state = {
+            visible: false
+        };
+    }
+
+    show = () => {
+        this.setState({visible: true});
+        console.log("EditPostDialog: show()");
+    }
+
+    hide = () => {
+        this.setState({visible: false});
+    }
+
+    editIt = () => {
+        let editedPost = {
+            "id": this.props.id,
+            "title": this.titleTextField.current.value,
+            "content": this.contentTextField.current.value,
+        }
+        let blogItem = {};
+
+        fetch('./editBlogItem', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(editedPost)
+        }).then(response => response.json())
+        .then(json => {
+            let newDataTable = this.props.data.slice();
+            for( var i = 0; i < newDataTable.length; i++){
+                if (newDataTable[i].id === this.props.id) {
+                    newDataTable[i].title = json.title;
+                    newDataTable[i].content = json.content;
+                }
+            }
+            this.props.updateData(newDataTable);
+        });
+    }
+
+    editPostDialog = () => {
+        const actions = [];
+        actions.push(<Button flat secondary swapTheming onClick={this.hide}>Cancel</Button>);
+        actions.push(<Button flat primary swapTheming onClick={this.editIt}>Send</Button>);
+        return (
+            <div>
+                <DialogContainer
+                    id="edit-post"
+                    visible={this.state.visible}
+                    onHide={this.hide}
+                    actions={actions}
+                    title="Write a new Post"
+                    width={600}
+                >
+                    <TextField
+                        id="title"
+                        label="Title"
+                        required={true}
+                        ref={this.titleTextField}
+                    />
+                    <TextField
+                        id="content"
+                        label="Content"
+                        rows={5}
+                        required={true}
+                        ref={this.contentTextField}
+                    />
+                </DialogContainer>
+            </div>
+        )
     }
 
     comment = () => {
@@ -133,6 +206,7 @@ export default class BlogPostTest extends PureComponent {
         }
         return (
             <div>
+                {this.editPostDialog()}
                 <Card style={style} classname="blogpost">
                     <CardTitle
                      title={this.props.title}
@@ -165,6 +239,7 @@ export default class BlogPostTest extends PureComponent {
                         />
                         <Button raised onClick={this.comment}>Comment</Button>
                         <Button raised onClick={this.deletePost}>Delete</Button>
+                        <Button raised onClick={this.show}>Edit</Button>
                         {this.showComments()}
                     </CardText>
                 </Card>
