@@ -98,6 +98,7 @@ export default class BlogPostTest extends PureComponent {
                             likes={comment.likes}
                             commentData={this.props.commentData}
                             updateCommentData={this.props.updateCommentData}
+                            updateCommentLikes={this.updateCommentLikes}
                         />
                     </div>
                 );

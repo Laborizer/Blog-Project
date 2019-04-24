@@ -15,7 +15,21 @@ const styles = {
   content: { minHeight: 'auto' },
 };
 
+/**
+ * Blog-Pro is a simple blogging application. It allows users to create blog posts with tags as well as browse, search
+ * comment other blog posts.
+ *
+ * App component is the main component of the React application. It holds and controls other components of the
+ * app and user interface.
+ *
+ * @author Lauri Laiho
+ * @since 2019-03-14
+ */
 class App extends Component {
+
+    /**
+     * Constructor of App component
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -29,20 +43,39 @@ class App extends Component {
 
     }
 
+    /**
+     * Function updates the blog post data of the state
+     *
+     * @param newData New data to be set into the state. Contains blog post objects.
+     */
     updateData = (newData) => {
         this.setState({loadingData: true});
         this.setState({data: newData, loadingData: false})
     }
 
+    /**
+     * Function updates the comment data of the state
+     *
+     * @param newData New data to be set into the state. Contains comment objects.
+     */
     updateCommentData = (newData) => {
         this.setState({commentData: newData})
     }
 
+    /**
+     * Function updates the tag data of the state
+     *
+     * @param newData New data to be set into the state. Contains tag objects.
+     */
     updateTagData = (newData) => {
         this.setState({tagData: newData})
         console.log(this.state.tagData);
     }
 
+    /**
+     * Lifecycle method invoke when component has been mounted by React. Fetches data from the backend and sets them
+     * into state.
+     */
     componentDidMount() {
         this.setState({loadingData: true});
 
