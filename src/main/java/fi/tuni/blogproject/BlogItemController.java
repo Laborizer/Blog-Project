@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -34,6 +35,33 @@ public class BlogItemController {
         blogItemRepository.save(b);
 
         return b;
+    }
+
+    /**
+     * Edits the BlogItem data.
+     *
+     * <p>
+     *     Only title and content can be modified. Original post
+     *     date and author is used.
+     * </p>
+     *
+     * @param b BlogItem to be edited.
+     * @return Edited BlogItem.
+     */
+    @RequestMapping(value="/editBlogItem", method = RequestMethod.POST)
+    @ResponseBody
+    public BlogItem editBlogItem(@RequestBody BlogItem b) {
+        if (blogItemRepository.findById(b.getId()).isPresent()) {
+            Date date = blogItemRepository.findById(b.getId()).get().getCreationDate();
+            String author = blogItemRepository.findById(b.getId()).get().getAuthor();
+
+            b.setCreationDate(date);
+            b.setAuthor(author);
+            blogItemRepository.save(b);
+
+            return b;
+        }
+        return null;
     }
 
     /**

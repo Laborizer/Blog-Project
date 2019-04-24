@@ -23,6 +23,9 @@ public class BlogprojectApplication implements CommandLineRunner {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    TagRepository tagRepository;
+
     /**
      * Main method.
      *
@@ -66,13 +69,22 @@ public class BlogprojectApplication implements CommandLineRunner {
      */
     public void createBlogPostsAndComments() {
 	    BlogItem b1 = new BlogItem(new Date(), "Tester", "Test", "Sample text");
-        BlogItem b2 = new BlogItem(new Date(), "Jester", "Test 2", "Temple saxt");
+        BlogItem b2 = new BlogItem(new Date(), "Jester", "Test 2",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod" +
+                        " tempor incididunt ut labore et dolore magna aliqua.");
         blogItemRepository.save(b1);
         blogItemRepository.save(b2);
 
-        Comment c1 = new Comment(b1.getId(), new Date(), "Commenter", "Nice post!", 0);
-        Comment c2 = new Comment(b2.getId(), new Date(), "Internet Dude", "Such wow!", 0);
+        Comment c1 = new Comment(b1.getId(), new Date(), "Commenter", "Such wow!", 0);
+        Comment c2 = new Comment(b2.getId(), new Date(), "Internet Dude",
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut" +
+                        " aliquip ex ea commodo consequat.", 0);
         commentRepository.save(c1);
         commentRepository.save(c2);
+
+        Tag t1 = new Tag("testtag", b1.getId());
+        Tag t2 = new Tag("funny", b2.getId());
+        tagRepository.save(t1);
+        tagRepository.save(t2);
     }
 }

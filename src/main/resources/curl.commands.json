@@ -4,8 +4,12 @@
     "command":"curl -X POST -H \"Content-Type:application/json\" --data \"{\"\"\"creationDate\"\"\":\"\"\"1555769405047\"\"\",\"\"\"author\"\"\":\"\"\"Poster\"\"\",\"\"\"title\"\"\":\"\"\"This is my first blog post\"\"\",\"\"\"content\"\"\":\"\"\"Content\"\"\"}\" http://localhost:8080/addBlogItem"
   },
   {
+    "name":"Edit Blog post",
+    "command":"curl -X POST -H \"Content-Type:application/json\" --data \"{\"\"\"id\"\"\":\"\"\"(blog ID)\"\"\",\"\"\"title\"\"\":\"\"\"Edited title\"\"\",\"\"\"content\"\"\":\"\"\"New content\"\"\"}\" http://localhost:8080/editBlogItem"
+  },
+  {
     "name":"Delete Blog post by ID",
-    "command":"curl -X DELETE http://localhost:8080/deleteBlogItem/(blog ID here)"
+    "command":"curl -X DELETE http://localhost:8080/deleteBlogItem/(blog ID)"
   },
   {
     "name":"Get all Blog posts",
@@ -13,11 +17,11 @@
   },
   {
     "name":"Get a Blog post by its ID",
-    "command":"curl -X GET http://localhost:8080/getBlogItem/(blog ID here)"
+    "command":"curl -X GET http://localhost:8080/getBlogItem/(blog ID)"
   },
   {
     "name":"Add comment to blog post",
-    "command":"curl -X POST -H \"Content-Type:application/json\" --data \"{\"\"\"blogId\"\"\":\"\"\"(blog ID here)\"\"\",\"\"\"commentDate\"\"\":\"\"\"1555769405047\"\"\",\"\"\"author\"\"\":\"\"\"Commenter\"\"\",\"\"\"content\"\"\":\"\"\"This is a comment\"\"\",\"\"\"likes\"\"\":\"\"\"0\"\"\"}\" http://localhost:8080/addComment"
+    "command":"curl -X POST -H \"Content-Type:application/json\" --data \"{\"\"\"blogId\"\"\":\"\"\"(blog ID)\"\"\",\"\"\"commentDate\"\"\":\"\"\"1555769405047\"\"\",\"\"\"author\"\"\":\"\"\"Commenter\"\"\",\"\"\"content\"\"\":\"\"\"This is a comment\"\"\",\"\"\"likes\"\"\":\"\"\"0\"\"\"}\" http://localhost:8080/addComment"
   },
   {
     "name":"Get all comments",
@@ -25,15 +29,15 @@
   },
   {
     "name":"Get comments on a blog post by its ID",
-    "command":"curl -X GET http://localhost:8080/getAllComments/(blog id here)"
+    "command":"curl -X GET http://localhost:8080/getAllComments/(blog ID)"
   },
   {
     "name":"Like a comment",
-    "command":"curl -X POST http://localhost:8080/likeComment/(comment ID here)"
+    "command":"curl -X POST http://localhost:8080/likeComment/(comment ID)"
   },
   {
     "name":"Add tags to blog post",
-    "command":"curl -X POST -H \"Content-Type:application/json\" --data \"[{\"\"\"tagName\"\"\":\"\"\"funny\"\"\", \"\"\"blogId\"\"\":\"\"\"(blog ID here)\"\"\"},{\"\"\"tagName\"\"\":\"\"\"joke\"\"\", \"\"\"blogId\"\"\":\"\"\"(blog ID here)\"\"\"}]\" http://localhost:8080/addTags"
+    "command":"curl -X POST -H \"Content-Type:application/json\" --data \"[{\"\"\"tagName\"\"\":\"\"\"funny\"\"\", \"\"\"blogId\"\"\":\"\"\"(blog ID)\"\"\"},{\"\"\"tagName\"\"\":\"\"\"joke\"\"\", \"\"\"blogId\"\"\":\"\"\"(blog ID here)\"\"\"}]\" http://localhost:8080/addTags"
   },
   {
     "name":"Get all tags",
