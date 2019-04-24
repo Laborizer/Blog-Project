@@ -25,21 +25,6 @@ export default class NewBlogPost extends PureComponent {
         this.setState({visible: false, tags: []});
     }
 
-/*
-    formatDate = () => {
-        var d = new Date(new Date().getTime()),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
-
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-
-        return (
-            [year, month, day].join('-')
-        )
-    } */
-
     postIt = () => {
         let newPost = {
             "title": this.titleTextField.current.value,
@@ -127,9 +112,15 @@ export default class NewBlogPost extends PureComponent {
                   onClick={()=>this.removeTag(tag)}
             />);
 
+        const postButtonStyle = {
+            margin: 10,
+            minWidth: 320,
+            float: 'middle'
+        };
+
         return (
             <div>
-                <Button raised secondary onClick={this.show}>New Post</Button>
+                <Button style={postButtonStyle} raised secondary onClick={this.show}>New Post</Button>
                 <DialogContainer
                     id="new-post"
                     visible={this.state.visible}

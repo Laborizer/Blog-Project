@@ -96,7 +96,6 @@ class App extends Component {
     showData = (givenData) => {
         return (
             givenData.map((item) =>
-                <div key={item.id}>
                     <BlogPostTest
                         id={item.id}
                         title={item.title}
@@ -110,7 +109,6 @@ class App extends Component {
                         updateCommentData={this.updateCommentData}
                         updateTagData={this.updateTagData}
                     />
-                </div>
             )
         );
     }
@@ -160,8 +158,8 @@ class App extends Component {
 
     render() {
         const blogPostsStyle = {
-            marginLeft: 300,
-            marginRight: 300
+            marginLeft: 5,
+            marginRight: 5
         };
 
         const postButtonStyle = {
@@ -197,12 +195,12 @@ class App extends Component {
                                         onChange={this.onChange}
                           />}
                         />
-                        <NewPostDialog
-            data={this.state.data}
-            tagData={this.state.tagData}
-            updateData={this.updateData}
-            updateTagData={this.updateTagData}
-            />
+                    <NewPostDialog
+                        data={this.state.data}
+                        tagData={this.state.tagData}
+                        updateData={this.updateData}
+                        updateTagData={this.updateTagData}
+                    />
                     <div style={blogPostsStyle}>
                         {this.showData(this.state.searchResults)}
                     </div>
@@ -222,12 +220,12 @@ class App extends Component {
                                         onChange={this.onChange}
                           />}
                         />
-                        <NewPostDialog
-            data={this.state.data}
-            tagData={this.state.tagData}
-            updateData={this.updateData}
-            updateTagData={this.updateTagData}
-            />
+                    <NewPostDialog
+                        data={this.state.data}
+                        tagData={this.state.tagData}
+                        updateData={this.updateData}
+                        updateTagData={this.updateTagData}
+                    />
                     <div style={blogPostsStyle}>
                         {this.showData(this.state.data)}
                     </div>

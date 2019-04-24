@@ -184,28 +184,35 @@ export default class BlogPostTest extends PureComponent {
 
     showTags() {
         console.log("ShowTags")
-        return (
-            this.props.tagData.map((tag) => {
-                if (tag.blogId === this.props.id) {
-                    console.log("match " + this.props.id)
-                    console.log(tag.tagName)
-                    return (
-                        <p className="md-cell">{tag.tagName}</p>
-                    )
+        let tagString = "";
+        this.props.tagData.map((tag) => {
+            if (tag.blogId === this.props.id) {
+                if (tagString === "") {
+                    tagString = tag.tagName;
+                    console.log("TagString is empty")
+                } else {
+                    tagString = tagString + ", " + tag.tagName;
+                    console.log("TagString is not empty")
                 }
-
-                return null;
-            })
+            }
+        })
+        return (
+            <p className="md-cell">{tagString}</p>
         )
     }
 
     render() {
         const style = {
-            margin: 50,
-            minWidth: 320,
+            marginTablet: 50,
+            minWidth: 200,
+            float: 'middle'
         }
+        const divStyle = {
+            padding: 50
+        }
+
         return (
-            <div>
+            <div style={divStyle}>
                 {this.editPostDialog()}
                 <Card style={style} classname="blogpost">
                     <CardTitle
@@ -214,8 +221,7 @@ export default class BlogPostTest extends PureComponent {
                     />
                     <CardText>
                         <p>{this.props.content}</p>
-                        <p>Tags:</p>
-                        <div className="md-grid">{this.showTags()}</div>
+                        <p>Tags: {this.showTags()}</p>
 
                     </CardText>
                     <CardActions expander>
