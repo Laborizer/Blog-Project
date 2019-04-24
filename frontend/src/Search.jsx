@@ -17,7 +17,7 @@ export default class Search extends PureComponent {
                     id="searchField"
                     lineDirection="center"
                     placeholder={"Search"}
-                    resize={{min: 640, max: 1000}}
+                    resize={{min: 400, max: 1000}}
                     leftIcon={<FontIcon>search</FontIcon>}
                     className="md-cell md-cell--bottom "
                     data={hits}

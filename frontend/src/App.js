@@ -91,8 +91,6 @@ class App extends Component {
 
     }
 
-    showEditDialog
-
     showData = (givenData) => {
         return (
             givenData.map((item) =>
@@ -185,7 +183,7 @@ class App extends Component {
         if (!this.state.loadingData && this.state.showSearch) {
             return (
                 <div className="BlogApp">
-                    <Toolbar
+                    <Toolbar className="md-toolbar-relative"
                           colored
                           title="Blog-Pro"
                           children={<Search

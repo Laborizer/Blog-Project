@@ -114,20 +114,21 @@ export default class NewBlogPost extends PureComponent {
 
         const postButtonStyle = {
             margin: 10,
-            minWidth: 320,
+            width: 300,
             float: 'middle'
         };
 
         return (
             <div>
-                <Button style={postButtonStyle} raised secondary onClick={this.show}>New Post</Button>
+                <Button className="md-full-width" raised secondary onClick={this.show}>Create a New Post</Button>
                 <DialogContainer
                     id="new-post"
                     visible={this.state.visible}
                     onHide={this.hide}
                     actions={actions}
                     title="Write a new Post"
-                    width={600}
+                    width={800}
+                    height={600}
                 >
                     <TextField
                         id="title"

@@ -66,7 +66,7 @@ export default class BlogPostTest extends PureComponent {
                     visible={this.state.visible}
                     onHide={this.hide}
                     actions={actions}
-                    title="Write a new Post"
+                    title="Edit Post"
                     width={600}
                 >
                     <TextField
@@ -207,8 +207,9 @@ export default class BlogPostTest extends PureComponent {
             minWidth: 200,
             float: 'middle'
         }
+
         const divStyle = {
-            padding: 50
+            margin: 50
         }
 
         return (
