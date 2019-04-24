@@ -46,7 +46,7 @@ export default class NewBlogPost extends PureComponent {
         .then(json => {
             let newDataTable = this.props.data.slice();
             blogItem = json;
-            newDataTable.push(json);
+            newDataTable.unshift(json);
             this.props.updateData(newDataTable);
             this.postTags(blogItem);
         });

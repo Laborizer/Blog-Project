@@ -104,7 +104,7 @@ export default class BlogPostTest extends PureComponent {
         }).then(response => response.json())
         .then(json => {
             let newDataTable = this.props.commentData.slice();
-            newDataTable.push(json);
+            newDataTable.unshift(json);
             this.props.updateCommentData(newDataTable);
         });
     }
