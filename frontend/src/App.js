@@ -167,7 +167,7 @@ class App extends Component {
         if (!this.state.loadingData && this.state.showSearch) {
             return (
                 <div className="BlogApp">
-                    <Toolbar className="md-toolbar-relative"
+                    <Toolbar
                           colored
                           title="Blog-Pro"
                           children={<Search
