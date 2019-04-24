@@ -68,10 +68,19 @@ public class BlogprojectApplication implements CommandLineRunner {
      * Creates sample data to database.
      */
     public void createBlogPostsAndComments() {
-	    BlogItem b1 = new BlogItem(new Date(), "Tester", "Test", "Sample text");
-        BlogItem b2 = new BlogItem(new Date(), "Jester", "Test 2",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod" +
-                        " tempor incididunt ut labore et dolore magna aliqua.");
+	    BlogItem b1 = new BlogItem(new Date(), "Wikipedia", "Varastettu kuolema", "Varastettu " +
+                "kuolema sisältää paljon tyylikokeiluja, minkä vuoksi sen yhtenä tehtävänä on pidetty myös " +
+                "erilaisten kuvaus-, kerronta- ja leikkaustekniikoiden testaamista. Tapiovaara sai elokuvaan " +
+                "vaikutteita sekä Neuvostoliitosta että Ranskasta. Varastettu kuolema tunnetaan erityisesti " +
+                "aikaansa edellä olleesta kuvauksestaan sekä Helsingin kaupunkimiljöön hyödyntämisestä. Elokuva " +
+                "innoitti runsaasti myöhempiä ohjaajia, vaikkei se saanutkaan suoranaisia seuraajia.");
+        BlogItem b2 = new BlogItem(new Date(), "Jeppe", "Muistikirja",
+                "Muistikirjan katoamisesta pelästyneet aktivistit ovat siirtämässä kirjapainoaan, kun " +
+                        "asekauppias Claessonin painostamana Manja ottaa yhteyden heihin. Manja vie aktistivit " +
+                        "Claessonin luo. He eivät pääse sopimukseen asekaupasta, mihin Claesson vastaa " +
+                        "kiristyksellä. Manja tapaa myöhemmin Robertin ja vakuuttaa Claessonin olevan tosissaan." +
+                        " Manjan ja Robertin suhde kehittyy läheiseksi, ja Manja ehdottaa aktivisteille, että nämä " +
+                        "varastaisivat aseet Claessonilta.");
         blogItemRepository.save(b1);
         blogItemRepository.save(b2);
 
@@ -82,8 +91,8 @@ public class BlogprojectApplication implements CommandLineRunner {
         commentRepository.save(c1);
         commentRepository.save(c2);
 
-        Tag t1 = new Tag("testtag", b1.getId());
-        Tag t2 = new Tag("funny", b2.getId());
+        Tag t1 = new Tag("#testtag", b1.getId());
+        Tag t2 = new Tag("#funny", b2.getId());
         tagRepository.save(t1);
         tagRepository.save(t2);
     }
