@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import {
-    Button,
-    Toolbar
-} from 'react-md';
+import {Toolbar} from 'react-md';
 import './App.scss';
 
 import NewPostDialog from './NewPostDialog.jsx';
 import BlogPostTest from './BlogPostTest.jsx';
 import Search from './Search.jsx';
-import Login from './Login.jsx';
-
-const styles = {
-  content: { minHeight: 'auto' },
-};
 
 /**
  * Blog-Pro is a simple blogging application. It allows users to create blog posts with tags as well as browse, search
@@ -78,7 +69,6 @@ class App extends Component {
      */
     componentDidMount() {
         this.setState({loadingData: true});
-
         fetch('/getBlogItems')
             .then(response => response.json())
             .then(json => this.setState({data: json}))
@@ -91,13 +81,10 @@ class App extends Component {
 
     }
 
-    showEditDialog
-
     showData = (givenData) => {
         return (
             givenData.map((item) =>
-                <div key={item.id}>
-                    <BlogPostTest
+                    <BlogPostTest key={item.id}
                         id={item.id}
                         title={item.title}
                         author={item.author}
@@ -110,7 +97,6 @@ class App extends Component {
                         updateCommentData={this.updateCommentData}
                         updateTagData={this.updateTagData}
                     />
-                </div>
             )
         );
     }
@@ -160,14 +146,8 @@ class App extends Component {
 
     render() {
         const blogPostsStyle = {
-            marginLeft: 300,
-            marginRight: 300
-        };
-
-        const postButtonStyle = {
-            margin: 10,
-            minWidth: 320,
-            float: 'middle'
+            marginLeft: 5,
+            marginRight: 5
         };
 
         if (this.state.loadingData) {
@@ -187,7 +167,7 @@ class App extends Component {
         if (!this.state.loadingData && this.state.showSearch) {
             return (
                 <div className="BlogApp">
-                    <Toolbar
+                    <Toolbar className="md-toolbar-relative"
                           colored
                           title="Blog-Pro"
                           children={<Search
@@ -197,12 +177,12 @@ class App extends Component {
                                         onChange={this.onChange}
                           />}
                         />
-                        <NewPostDialog
-            data={this.state.data}
-            tagData={this.state.tagData}
-            updateData={this.updateData}
-            updateTagData={this.updateTagData}
-            />
+                    <NewPostDialog
+                        data={this.state.data}
+                        tagData={this.state.tagData}
+                        updateData={this.updateData}
+                        updateTagData={this.updateTagData}
+                    />
                     <div style={blogPostsStyle}>
                         {this.showData(this.state.searchResults)}
                     </div>
@@ -222,12 +202,12 @@ class App extends Component {
                                         onChange={this.onChange}
                           />}
                         />
-                        <NewPostDialog
-            data={this.state.data}
-            tagData={this.state.tagData}
-            updateData={this.updateData}
-            updateTagData={this.updateTagData}
-            />
+                    <NewPostDialog
+                        data={this.state.data}
+                        tagData={this.state.tagData}
+                        updateData={this.updateData}
+                        updateTagData={this.updateTagData}
+                    />
                     <div style={blogPostsStyle}>
                         {this.showData(this.state.data)}
                     </div>

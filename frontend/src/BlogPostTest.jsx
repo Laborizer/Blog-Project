@@ -1,4 +1,4 @@
-import {Card, CardText, CardTitle, CardActions, Button, TextField, Chip, DialogContainer} from "react-md";
+import {Card, CardText, CardTitle, CardActions, Button, TextField, DialogContainer} from "react-md";
 import React, {PureComponent} from "react";
 import Comment from './Comment.jsx';
 
@@ -12,7 +12,6 @@ export default class BlogPostTest extends PureComponent {
         this.nicknameTextField = React.createRef();
         this.titleTextField = React.createRef();
         this.contentTextField = React.createRef();
-        console.log(this.props.tagData)
 
         this.state = {
             visible: false
@@ -21,7 +20,6 @@ export default class BlogPostTest extends PureComponent {
 
     show = () => {
         this.setState({visible: true});
-        console.log("EditPostDialog: show()");
     }
 
     hide = () => {
@@ -34,7 +32,6 @@ export default class BlogPostTest extends PureComponent {
             "title": this.titleTextField.current.value,
             "content": this.contentTextField.current.value,
         }
-        let blogItem = {};
 
         fetch('./editBlogItem', {
             method: "POST",
@@ -66,7 +63,7 @@ export default class BlogPostTest extends PureComponent {
                     visible={this.state.visible}
                     onHide={this.hide}
                     actions={actions}
-                    title="Write a new Post"
+                    title="Edit Post"
                     width={600}
                 >
                     <TextField
@@ -104,7 +101,7 @@ export default class BlogPostTest extends PureComponent {
         }).then(response => response.json())
         .then(json => {
             let newDataTable = this.props.commentData.slice();
-            newDataTable.push(json);
+            newDataTable.unshift(json);
             this.props.updateCommentData(newDataTable);
         });
     }
@@ -125,7 +122,7 @@ export default class BlogPostTest extends PureComponent {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(deletedPost)
-        }).then(response => response.json()).then(json => console.log(json));
+        }).then(response => response.json())
         let newDataTable = this.props.data.slice();
         for( var i = 0; i < newDataTable.length; i++){
            if (newDataTable[i].id === this.props.id) {
@@ -139,7 +136,7 @@ export default class BlogPostTest extends PureComponent {
         var currentDate = new Date(this.props.creationDate);
 
         var date = currentDate.getDate();
-        var month = currentDate.getMonth(); //Be careful! January is 0 not 1
+        var month = currentDate.getMonth();
         var year = currentDate.getFullYear();
 
         var dateString = date + "." +(month + 1) + "." + year;
@@ -150,12 +147,6 @@ export default class BlogPostTest extends PureComponent {
     }
 
     showComments = () => {
-        const style = {
-            marginTop: 5,
-            marginBottom: 5,
-            maxWidth: 320,
-        }
-
         return (
           <div>
             {this.props.commentData.map((comment) => {
@@ -183,39 +174,43 @@ export default class BlogPostTest extends PureComponent {
     }
 
     showTags() {
-        console.log("ShowTags")
-        return (
-            this.props.tagData.map((tag) => {
-                if (tag.blogId === this.props.id) {
-                    console.log("match " + this.props.id)
-                    console.log(tag.tagName)
-                    return (
-                        <p className="md-cell">{tag.tagName}</p>
-                    )
+        let tagString = "";
+        this.props.tagData.map((tag) => {
+            if (tag.blogId === this.props.id) {
+                if (tagString === "") {
+                    tagString = tag.tagName;
+                } else {
+                    tagString = tagString + ", " + tag.tagName;
                 }
-
-                return null;
-            })
+            }
+        })
+        return (
+            <p>{tagString}</p>
         )
     }
 
     render() {
         const style = {
-            margin: 50,
-            minWidth: 320,
+            marginTablet: 50,
+            minWidth: 200,
+            float: 'middle'
         }
+
+        const divStyle = {
+            margin: 50
+        }
+
         return (
-            <div>
+            <div style={divStyle}>
                 {this.editPostDialog()}
-                <Card style={style} classname="blogpost">
+                <Card style={style} className="blogpost">
                     <CardTitle
                      title={this.props.title}
                      subtitle={"By: " + this.props.author + ", " + this.makeDate()}
                     />
                     <CardText>
                         <p>{this.props.content}</p>
-                        <p>Tags:</p>
-                        <div className="md-grid">{this.showTags()}</div>
+                        <p>Tags: {this.showTags()}</p>
 
                     </CardText>
                     <CardActions expander>

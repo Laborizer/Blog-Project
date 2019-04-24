@@ -1,4 +1,4 @@
-import {Button, DialogContainer, TextField, Autocomplete, Chip} from "react-md";
+import {Button, DialogContainer, TextField, Chip} from "react-md";
 import React, {PureComponent} from "react";
 
 export default class NewBlogPost extends PureComponent {
@@ -18,27 +18,11 @@ export default class NewBlogPost extends PureComponent {
 
     show = () => {
         this.setState({visible: true});
-        console.log("NewPostDialog: show()");
     }
 
     hide = () => {
         this.setState({visible: false, tags: []});
     }
-
-/*
-    formatDate = () => {
-        var d = new Date(new Date().getTime()),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
-
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-
-        return (
-            [year, month, day].join('-')
-        )
-    } */
 
     postIt = () => {
         let newPost = {
@@ -48,8 +32,6 @@ export default class NewBlogPost extends PureComponent {
             "creationDate": new Date().getTime()
         }
         let blogItem = {};
-        console.log(newPost)
-        console.log(this.props.tagData)
 
         fetch('./addBlogItem', {
             method: "POST",
@@ -61,7 +43,7 @@ export default class NewBlogPost extends PureComponent {
         .then(json => {
             let newDataTable = this.props.data.slice();
             blogItem = json;
-            newDataTable.push(json);
+            newDataTable.unshift(json);
             this.props.updateData(newDataTable);
             this.postTags(blogItem);
         });
@@ -76,7 +58,6 @@ export default class NewBlogPost extends PureComponent {
             tagObject.tagName = this.state.tags[i].tagName
             tagArray.push(tagObject)
         }
-        console.log(tagArray)
         fetch('./addTags', {
             method: "POST",
             headers: {
@@ -100,7 +81,6 @@ export default class NewBlogPost extends PureComponent {
             tagName: "#" + this.tagsTextField.current.value
         }
         addedTags.push(tag);
-        //this.props.updateTagData(addedTags);
         this.setState({tags: addedTags})
         console.log("Added tag");
     }
@@ -129,14 +109,15 @@ export default class NewBlogPost extends PureComponent {
 
         return (
             <div>
-                <Button raised secondary onClick={this.show}>New Post</Button>
+                <Button className="md-full-width" raised secondary onClick={this.show}>Create a New Post</Button>
                 <DialogContainer
                     id="new-post"
                     visible={this.state.visible}
                     onHide={this.hide}
                     actions={actions}
                     title="Write a new Post"
-                    width={600}
+                    width={800}
+                    height={600}
                 >
                     <TextField
                         id="title"
