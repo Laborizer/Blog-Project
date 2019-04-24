@@ -5,36 +5,39 @@ import './App.scss';
 
 export default class Comment extends PureComponent {
     constructor(props) {
-            super(props);
+        super(props);
+        this.state = {
+            isLiked: false
+        }
+
     }
 
     like = () => {
-        console.log("Liked: " + this.props.id + " On post: " + this.props.blogId);
-        let url = "/likeComment"
-        /*
-        let likedComment = {
-            "id": this.props.id
+        if (!this.state.isLiked) {
+            let url = "/likeComment/" + this.props.id
+
+            let likedComment = {
+                "id": this.props.id
+            }
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(likedComment)
+            }).then(response => response.json())
+            .then(json => {
+                this.setState({isLiked: true});
+                let newDataTable = this.props.commentData.slice();
+                for( var i = 0; i < newDataTable.length; i++){
+                    if (newDataTable[i].id === this.props.id) {
+                        newDataTable[i].likes += 1;
+                    }
+                }
+                this.props.updateCommentData(newDataTable);
+            });
         }
-        */
-        let likedComment = {
-            "id": this.props.id,
-            "blogId": this.props.blogId,
-            "commentDate": this.props.commentDate,
-            "author": this.props.author,
-            "content": this.props.content,
-            "likes": this.props.likes
-        }
-        console.log(likedComment);
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(likedComment)
-        }).then(response => response.json()).then(json => console.log(json));
-        setTimeout(function(){
-            window.location.reload()
-        }, 250);
     }
 
     render() {

@@ -49,6 +49,7 @@ export default class NewBlogPost extends PureComponent {
         }
         let blogItem = {};
         console.log(newPost)
+        console.log(this.props.tagData)
 
         fetch('./addBlogItem', {
             method: "POST",
@@ -68,20 +69,26 @@ export default class NewBlogPost extends PureComponent {
 
     postTags = (blogItem) => {
         this.hide();
-        let tagArray = this.state.tags
-        for (let i=0; i<tagArray.length;i++) {
-            tagArray[i].blogId = blogItem.id;
+        let tagArray = []
+        for (let i=0; i<this.state.tags.length;i++) {
+            let tagObject = {};
+            tagObject.blogId = blogItem.id;
+            tagObject.tagName = this.state.tags[i].tagName
+            tagArray.push(tagObject)
         }
+        console.log(tagArray)
         fetch('./addTags', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(tagArray)
-        }).then(json => {
+        }).then(response => response.json())
+        .then(json => {
             let newDataTable = this.props.tagData.slice();
-            newDataTable.push(json);
-            console.log(json)
+            for (let i=0; i<json.length; i++) {
+                newDataTable.push(json[i]);
+            }
             this.props.updateTagData(newDataTable);
             this.setState({tags: []});
         });
@@ -90,11 +97,10 @@ export default class NewBlogPost extends PureComponent {
     addTag = () => {
         const addedTags = this.state.tags.slice();
         let tag = {
-            id: this.state.tags.length,
             tagName: "#" + this.tagsTextField.current.value
         }
         addedTags.push(tag);
-        this.props.updateTagData(addedTags);
+        //this.props.updateTagData(addedTags);
         this.setState({tags: addedTags})
         console.log("Added tag");
     }
@@ -102,7 +108,7 @@ export default class NewBlogPost extends PureComponent {
     removeTag = (tag) => {
         const addedTags = this.state.tags.slice();
         for( var i = 0; i < addedTags.length; i++){
-            if (addedTags[i].id === tag.id) {
+            if (addedTags[i].tagName === tag.tagName) {
                 addedTags.splice(i, 1);
             }
         }

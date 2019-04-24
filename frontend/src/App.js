@@ -15,7 +15,21 @@ const styles = {
   content: { minHeight: 'auto' },
 };
 
+/**
+ * Blog-Pro is a simple blogging application. It allows users to create blog posts with tags as well as browse, search
+ * comment other blog posts.
+ *
+ * App component is the main component of the React application. It holds and controls other components of the
+ * app and user interface.
+ *
+ * @author Lauri Laiho
+ * @since 2019-03-14
+ */
 class App extends Component {
+
+    /**
+     * Constructor of App component
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -29,20 +43,39 @@ class App extends Component {
 
     }
 
+    /**
+     * Function updates the blog post data of the state
+     *
+     * @param newData New data to be set into the state. Contains blog post objects.
+     */
     updateData = (newData) => {
         this.setState({loadingData: true});
         this.setState({data: newData, loadingData: false})
     }
 
+    /**
+     * Function updates the comment data of the state
+     *
+     * @param newData New data to be set into the state. Contains comment objects.
+     */
     updateCommentData = (newData) => {
         this.setState({commentData: newData})
     }
 
+    /**
+     * Function updates the tag data of the state
+     *
+     * @param newData New data to be set into the state. Contains tag objects.
+     */
     updateTagData = (newData) => {
         this.setState({tagData: newData})
-        console.log(newData);
+        console.log(this.state.tagData);
     }
 
+    /**
+     * Lifecycle method invoke when component has been mounted by React. Fetches data from the backend and sets them
+     * into state.
+     */
     componentDidMount() {
         this.setState({loadingData: true});
 
@@ -51,9 +84,14 @@ class App extends Component {
             .then(json => this.setState({data: json}))
         fetch('/getAllComments')
             .then(response => response.json())
-            .then(json => this.setState({commentData: json, loadingData: false}))
+            .then(json => this.setState({commentData: json}))
+        fetch('/getAllTags')
+            .then(response => response.json())
+            .then(json => this.setState({tagData: json, loadingData: false}))
 
     }
+
+    showEditDialog
 
     showData = (givenData) => {
         return (
@@ -77,8 +115,28 @@ class App extends Component {
         );
     }
 
+    getPostsByTags = (tag) => {
+        let hitArray = []
+        for(let item of this.state.data) {
+            if (item.id === tag.blogId) {
+                hitArray.push(item);
+            }
+        }
+
+        return hitArray;
+
+    }
+
     onAutocomplete = (hit) => {
         let newDataTable = [];
+        for(let tag of this.state.tagData) {
+            if (tag.tagName === hit) {
+                let hits = this.getPostsByTags(tag);
+                for (let i=0; i<hits.length;i++) {
+                    newDataTable.push(hits[i]);
+                }
+            }
+        }
         for(let item of this.state.data) {
             if (item.title === hit) {
                 newDataTable.push(item);
@@ -134,6 +192,7 @@ class App extends Component {
                           title="Blog-Pro"
                           children={<Search
                                         data={this.state.data}
+                                        tagData={this.state.tagData}
                                         onAutocomplete={this.onAutocomplete}
                                         onChange={this.onChange}
                           />}
@@ -157,6 +216,7 @@ class App extends Component {
                           title="Blog-Pro"
                           children={<Search
                                         data={this.state.data}
+                                        tagData={this.state.tagData}
                                         onAutocomplete={this.onAutocomplete}
                                         onChange={this.onChange}
                           />}
