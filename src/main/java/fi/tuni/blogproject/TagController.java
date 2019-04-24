@@ -37,19 +37,21 @@ public class TagController {
         for (Tag t : tags) {
             if (blogItemRepository.findById(t.getBlogId()).isPresent()) {
                 for (Tag ta : tagRepository.findAll()) {
-                    tag1 = ta.getTagName().replaceAll("[^A-Za-z]+", "").toLowerCase();
-                    tag2 = t.getTagName().replaceAll("[^A-Za-z]+", "").toLowerCase();
+                    tag1 = ta.getTagName().replaceAll("[^a-zA-Z0-9]+", "").toLowerCase();
+                    tag2 = t.getTagName().replaceAll("[^a-zA-Z0-9]+", "").toLowerCase();
 
                     if (tag1.equals(tag2) && ta.getBlogId().equals(t.getBlogId())) {
                         duplicateTag = true;
                     }
                 }
                 if (!duplicateTag) {
-                    t.setTagName(t.getTagName().replaceAll("[^A-Za-z]+", "").toLowerCase());
+                    t.setTagName("#" + t.getTagName().replaceAll("[^A-Za-z0-9]+", "").toLowerCase());
                     tagRepository.save(t);
                     returnableTags.add(t);
                 }
             }
+            tag1 = "";
+            tag2 = "";
             duplicateTag = false;
         }
         return returnableTags;
