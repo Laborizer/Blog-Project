@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * Main class of the backend.
+ *
+ * @author Jimi Savola - jimi.savola@tuni.fi
  */
 @SpringBootApplication
 public class BlogprojectApplication implements CommandLineRunner {

@@ -9,6 +9,8 @@ import java.util.UUID;
 
 /**
  * Class for making a randomized id for all objects in a String format.
+ *
+ * @author Jimi Savola - jimi.savola@tuni.fi
  */
 public class IDGenerator implements IdentifierGenerator {
     /**

@@ -11,6 +11,8 @@ import java.util.Optional;
 
 /**
  * Rest Controller for modifying BlogItems in the database.
+ *
+ * @author Jimi Savola - jimi.savola@tuni.fi
  */
 @RestController
 public class BlogItemController {

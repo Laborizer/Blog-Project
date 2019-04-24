@@ -10,6 +10,8 @@ import java.util.Optional;
 
 /**
  * Rest Controller for modifying Comments in the database.
+ *
+ * @author Jimi Savola - jimi.savola@tuni.fi
  */
 @RestController
 public class CommentController {

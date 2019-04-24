@@ -11,6 +11,8 @@ import java.util.Date;
  * <p>
  *     Automatically makes a database table out of this class using hibernate.
  * </p>
+ *
+ * @author Jimi Savola - jimi.savola@tuni.fi
  */
 @Entity
 @Table(name ="blogs")

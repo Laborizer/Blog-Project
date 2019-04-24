@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 /**
  * Rest Controller for modifying Tags in the database.
+ *
+ * @author Jimi Savola - jimi.savola@tuni.fi
  */
 @RestController
 public class TagController {

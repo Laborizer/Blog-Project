@@ -7,6 +7,8 @@ package fi.tuni.blogproject;
  *     Objects are made based on the data in curl.commands.json -file
  *     in application-properties.
  * </p>
+ *
+ * @author Jimi Savola - jimi.savola@tuni.fi
  */
 public class CurlCommand {
     private String name;
