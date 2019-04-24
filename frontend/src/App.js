@@ -113,8 +113,28 @@ class App extends Component {
         );
     }
 
+    getPostsByTags = (tag) => {
+        let hitArray = []
+        for(let item of this.state.data) {
+            if (item.id === tag.blogId) {
+                hitArray.push(item);
+            }
+        }
+
+        return hitArray;
+
+    }
+
     onAutocomplete = (hit) => {
         let newDataTable = [];
+        for(let tag of this.state.tagData) {
+            if (tag.tagName === hit) {
+                let hits = this.getPostsByTags(tag);
+                for (let i=0; i<hits.length;i++) {
+                    newDataTable.push(hits[i]);
+                }
+            }
+        }
         for(let item of this.state.data) {
             if (item.title === hit) {
                 newDataTable.push(item);

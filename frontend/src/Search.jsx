@@ -6,12 +6,11 @@ export default class Search extends PureComponent {
         super(props);
     }
     render() {
-        let titles = this.props.data.map(item => (
-            item.title
-        ));
+        let titles = this.props.data.map(item => item.title);
 
-        let tags = this.props.tagData
-        let hits = [];
+        let tags = this.props.tagData.map(item => item.tagName);
+
+        let hits = titles.concat(tags);
         return (
             <div  className="md-grid">
                 <Autocomplete
